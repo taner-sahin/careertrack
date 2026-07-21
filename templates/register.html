@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kayıt Ol | CareerTrack</title>
+</head>
+<body>
+
+<body>
+
+    <h1>CareerTrack Kayıt Sayfası</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Kayıt Ol</button>
+    </form>
+
+</body>
+
+</body>
+</html>

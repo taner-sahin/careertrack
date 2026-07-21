@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Giriş Yap | CareerTrack</title>
+</head>
+<body>
+
+
+    <h1>CareerTrack Giriş Sayfası</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <p>
+            <label for="username">Kullanıcı Adı:</label>
+            <input type="text" name="username" id="username">
+        </p>
+
+        <p>
+            <label for="password">Şifre:</label>
+            <input type="password" name="password" id="password">
+        </p>
+
+        <button type="submit">Giriş Yap</button>
+    </form>
+
+
+
+</body>
+</html>
