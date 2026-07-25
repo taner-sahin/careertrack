@@ -1,31 +1,155 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Giriş Yap | CareerTrack</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Giriş Yap | CareerTrack
+    </title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        rel="stylesheet"
+    >
+
 </head>
-<body>
 
 
-    <h1>CareerTrack Giriş Sayfası</h1>
+<body class="bg-light">
 
-    <form method="POST">
-        {% csrf_token %}
+    <div
+        class="container d-flex align-items-center justify-content-center"
+        style="min-height: 100vh;"
+    >
 
-        <p>
-            <label for="username">Kullanıcı Adı:</label>
-            <input type="text" name="username" id="username">
-        </p>
+        <div
+            class="card border-0 shadow-sm"
+            style="width: 100%; max-width: 430px;"
+        >
 
-        <p>
-            <label for="password">Şifre:</label>
-            <input type="password" name="password" id="password">
-        </p>
+            <div class="card-body p-4 p-md-5">
 
-        <button type="submit">Giriş Yap</button>
-    </form>
+                <div class="text-center mb-4">
+
+                    <div
+                        class="bg-primary text-white rounded-3 d-inline-flex align-items-center justify-content-center mb-3"
+                        style="width: 52px; height: 52px;"
+                    >
+                        <i class="bi bi-briefcase-fill fs-4"></i>
+                    </div>
+
+                    <h2 class="fw-bold mb-2">
+                        CareerTrack
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Hesabına giriş yap
+                    </p>
+
+                </div>
 
 
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+
+                        <label
+                            for="username"
+                            class="form-label fw-semibold"
+                        >
+                            Kullanıcı Adı
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-control"
+                            placeholder="Kullanıcı adını yaz"
+                            required
+                            autofocus
+                        >
+
+                    </div>
+
+
+                    <div class="mb-4">
+
+                        <label
+                            for="password"
+                            class="form-label fw-semibold"
+                        >
+                            Şifre
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Şifreni yaz"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="d-grid">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary py-2"
+                        >
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+
+                            Giriş Yap
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <div class="text-center mt-4">
+
+                    <span class="text-muted">
+                        Hesabın yok mu?
+                    </span>
+
+                    <a
+                        href="{% url 'accounts:register' %}"
+                        class="text-decoration-none fw-semibold"
+                    >
+                        Kayıt Ol
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
 
 </body>
+
 </html>

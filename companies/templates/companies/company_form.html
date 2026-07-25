@@ -1,19 +1,115 @@
 {% extends "base.html" %}
 
+{% block page_title %}
+Yeni Şirket
+{% endblock %}
+
+{% block page_description %}
+Sisteme yeni bir şirket kaydı oluştur.
+{% endblock %}
+
 {% block content %}
 
-<h2>Yeni Şirket Ekle</h2>
+<div class="row">
 
-<form method="POST">
+    <div class="col-lg-8">
 
-    {% csrf_token %}
+        <div class="card border-0 shadow-sm">
 
-    {{ form }}
+            <div class="card-body p-4">
 
-    <button type="submit">
-        Kaydet
-    </button>
+                <h3 class="mb-4">
+                    Yeni Şirket Ekle
+                </h3>
 
-</form>
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Şirket Adı
+                        </label>
+
+                        {{ form.name }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Website
+                        </label>
+
+                        {{ form.website }}
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Konum
+                        </label>
+
+                        {{ form.location }}
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Kaydet
+                    </button>
+
+                    <a
+                        href="{% url 'companies:list' %}"
+                        class="btn btn-outline-secondary"
+                    >
+                        İptal
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body">
+
+                <h5>
+                    Bilgilendirme
+                </h5>
+
+                <hr>
+
+                <p class="text-muted">
+
+                    Yeni eklediğin şirket daha sonra
+                    başvuru oluştururken seçilebilir.
+
+                </p>
+
+                <a
+                    href="{% url 'companies:list' %}"
+                    class="btn btn-outline-primary w-100"
+                >
+                    Şirket Listesine Git
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

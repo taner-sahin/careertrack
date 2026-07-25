@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Şirketler | CareerTrack
+{% endblock %}
+
+
+{% block page_title %}
+Şirketler
+{% endblock %}
+
+
+{% block page_description %}
+Kayıtlı şirketleri görüntüle ve yönet
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-header bg-white border-0 pt-4 px-4">
+
+        <div class="d-flex align-items-center justify-content-between gap-3">
+
+            <div>
+
+                <h5 class="fw-bold mb-1">
+                    Şirket Listesi
+                </h5>
+
+                <p class="text-muted small mb-0">
+                    Sisteme eklediğin tüm şirketler
+                </p>
+
+            </div>
+
+            <a
+                href="{% url 'companies:create' %}"
+                class="btn btn-primary"
+            >
+                <i class="bi bi-plus-lg me-1"></i>
+                Yeni Şirket Ekle
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="card-body px-4 pb-4">
+
+        {% if companies %}
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Şirket
+                            </th>
+
+                            <th>
+                                Website
+                            </th>
+
+                            <th>
+                                Konum
+                            </th>
+
+                            <th class="text-end">
+                                İşlem
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for company in companies %}
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="d-flex align-items-center gap-3">
+
+                                        <div
+                                            class="bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center fw-bold"
+                                            style="width: 42px; height: 42px;"
+                                        >
+                                            {{ company.name|first|upper }}
+                                        </div>
+
+                                        <div>
+
+                                            <a
+                                                href="{% url 'companies:detail' company.slug %}"
+                                                class="fw-semibold text-dark text-decoration-none"
+                                            >
+                                                {{ company.name }}
+                                            </a>
+
+                                            <div class="text-muted small">
+                                                Şirket kaydı
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if company.website %}
+
+                                        <a
+                                            href="{{ company.website }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="text-decoration-none"
+                                        >
+                                            {{ company.website }}
+                                        </a>
+
+                                    {% else %}
+
+                                        <span class="text-muted">
+                                            Belirtilmedi
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if company.location %}
+
+                                        {{ company.location }}
+
+                                    {% else %}
+
+                                        <span class="text-muted">
+                                            Belirtilmedi
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td class="text-end">
+
+                                    <a
+                                        href="{% url 'companies:detail' company.slug %}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        <i class="bi bi-eye me-1"></i>
+                                        Detay
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="text-center py-5">
+
+                <div
+                    class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                    style="width: 68px; height: 68px;"
+                >
+                    <i class="bi bi-building text-muted fs-3"></i>
+                </div>
+
+                <h5 class="fw-semibold">
+                    Henüz şirket bulunmuyor
+                </h5>
+
+                <p class="text-muted">
+                    İlk şirket kaydını oluşturarak başlayabilirsin.
+                </p>
+
+                <a
+                    href="{% url 'companies:create' %}"
+                    class="btn btn-primary"
+                >
+                    <i class="bi bi-plus-lg me-1"></i>
+                    Yeni Şirket Ekle
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

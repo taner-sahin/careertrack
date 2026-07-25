@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+{{ company.name }} | CareerTrack
+{% endblock %}
+
+
+{% block page_title %}
+Şirket Detayı
+{% endblock %}
+
+
+{% block page_description %}
+Şirket bilgilerini görüntüle
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex align-items-center gap-3 mb-4">
+
+                    <div
+                        class="bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center fw-bold"
+                        style="width:70px;height:70px;"
+                    >
+                        {{ company.name|first|upper }}
+                    </div>
+
+                    <div>
+
+                        <h3 class="mb-1 fw-bold">
+                            {{ company.name }}
+                        </h3>
+
+                        <span class="text-muted">
+                            Şirket Profili
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row gy-4">
+
+                    <div class="col-md-6">
+
+                        <h6 class="text-muted">
+                            Website
+                        </h6>
+
+                        {% if company.website %}
+
+                            <a
+                                href="{{ company.website }}"
+                                target="_blank"
+                                class="text-decoration-none"
+                            >
+                                {{ company.website }}
+                            </a>
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                Belirtilmedi
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <h6 class="text-muted">
+                            Konum
+                        </h6>
+
+                        <p class="mb-0">
+
+                            {% if company.location %}
+                                {{ company.location }}
+                            {% else %}
+                                Belirtilmedi
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <h6 class="text-muted">
+                            Oluşturulma Tarihi
+                        </h6>
+
+                        <p class="mb-0">
+
+                            {{ company.created_at }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold mb-4">
+
+                    Hızlı İşlemler
+
+                </h5>
+
+                <div class="d-grid gap-3">
+
+                    <a
+                        href="{% url 'companies:list' %}"
+                        class="btn btn-outline-secondary"
+                    >
+                        ← Şirket Listesi
+                    </a>
+
+                    <a
+                        href="{% url 'companies:create' %}"
+                        class="btn btn-primary"
+                    >
+                        + Yeni Şirket
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

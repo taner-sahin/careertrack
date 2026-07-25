@@ -1,13 +1,249 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareerTrack</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <h1>CareerTrack Project</h1>
+{% block title %} Dashboard | CareerTrack 
 
-</body>
-</html>
+{% endblock%} 
+
+{% block page_title %}
+
+Dashboard 
+{% endblock %} 
+
+{% block page_description %}
+Başvuru sürecinin genel özeti
+ {% endblock %} 
+ 
+ {% block content %}
+
+<!-- İSTATİSTİK KARTLARI -->
+<div class="row g-4 mb-4">
+  <div class="col-xl-3 col-md-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <p class="text-muted mb-1">Toplam Şirket</p>
+
+            <h3 class="fw-bold mb-0">0</h3>
+          </div>
+
+          <div
+            class="bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center"
+            style="width: 48px; height: 48px"
+          >
+            <i class="bi bi-building fs-4"></i>
+          </div>
+        </div>
+
+        <small class="text-muted d-block mt-3">
+          Sisteme eklenen şirketler
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <p class="text-muted mb-1">Toplam Başvuru</p>
+
+            <h3 class="fw-bold mb-0">0</h3>
+          </div>
+
+          <div
+            class="bg-success-subtle text-success rounded-3 d-flex align-items-center justify-content-center"
+            style="width: 48px; height: 48px"
+          >
+            <i class="bi bi-file-earmark-text fs-4"></i>
+          </div>
+        </div>
+
+        <small class="text-muted d-block mt-3"> Tüm başvurular </small>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <p class="text-muted mb-1">Yaklaşan Görüşmeler</p>
+
+            <h3 class="fw-bold mb-0">0</h3>
+          </div>
+
+          <div
+            class="bg-warning-subtle text-warning rounded-3 d-flex align-items-center justify-content-center"
+            style="width: 48px; height: 48px"
+          >
+            <i class="bi bi-calendar-event fs-4"></i>
+          </div>
+        </div>
+
+        <small class="text-muted d-block mt-3"> Planlanan mülakatlar </small>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <p class="text-muted mb-1">Teklif Alınan</p>
+
+            <h3 class="fw-bold mb-0">0</h3>
+          </div>
+
+          <div
+            class="bg-info-subtle text-info rounded-3 d-flex align-items-center justify-content-center"
+            style="width: 48px; height: 48px"
+          >
+            <i class="bi bi-award fs-4"></i>
+          </div>
+        </div>
+
+        <small class="text-muted d-block mt-3"> Kabul edilen başvurular </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ALT BÖLÜM -->
+<div class="row g-4">
+  <!-- SON EKLENEN ŞİRKETLER -->
+  <div class="col-lg-7">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-white border-0 pt-4 px-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <h5 class="fw-bold mb-1">Son Eklenen Şirketler</h5>
+
+            <p class="text-muted small mb-0">
+              En son eklediğin şirket kayıtları
+            </p>
+          </div>
+
+          <a href="#" class="btn btn-sm btn-outline-primary"> Tümünü Gör </a>
+        </div>
+      </div>
+
+      <div class="card-body px-4">
+        <div class="text-center py-5">
+          <div
+            class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+            style="width: 64px; height: 64px"
+          >
+            <i class="bi bi-building text-muted fs-3"></i>
+          </div>
+
+          <h6 class="fw-semibold">Henüz şirket eklenmedi</h6>
+
+          <p class="text-muted small">
+            İlk şirket kaydını oluşturarak başlayabilirsin.
+          </p>
+
+          <a href="{% url 'companies:create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>
+            Yeni Şirket Ekle
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIZLI İŞLEMLER -->
+  <div class="col-lg-5">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-white border-0 pt-4 px-4">
+        <h5 class="fw-bold mb-1">Hızlı İşlemler</h5>
+
+        <p class="text-muted small mb-0">Sık kullanılan işlemler</p>
+      </div>
+
+      <div class="card-body px-4">
+        <div class="d-grid gap-3">
+          <a
+            href="{% url 'companies:create' %}"
+            class="btn btn-primary text-start py-3"
+          >
+            <i class="bi bi-building-add me-2"></i>
+            Yeni Şirket Ekle
+          </a>
+
+          <a
+            href="{% url 'companies:list' %}"
+            class="btn btn-outline-primary text-start py-3"
+          >
+            <i class="bi bi-list-ul me-2"></i>
+            Şirketleri Görüntüle
+          </a>
+
+          <a href="#" class="btn btn-outline-success text-start py-3">
+            <i class="bi bi-file-earmark-plus me-2"></i>
+            Yeni Başvuru Ekle
+          </a>
+
+          <a href="#" class="btn btn-outline-secondary text-start py-3">
+            <i class="bi bi-calendar-check me-2"></i>
+            Görüşmeleri Görüntüle
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SON BAŞVURULAR -->
+<div class="row g-4 mt-1">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white border-0 pt-4 px-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <h5 class="fw-bold mb-1">Son Başvurular</h5>
+
+            <p class="text-muted small mb-0">
+              En son oluşturulan iş başvuruları
+            </p>
+          </div>
+
+          <a href="#" class="btn btn-sm btn-outline-primary">
+            Tüm Başvurular
+          </a>
+        </div>
+      </div>
+
+      <div class="card-body px-4">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th>Şirket</th>
+
+                <th>Pozisyon</th>
+
+                <th>Durum</th>
+
+                <th>Tarih</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td colspan="4" class="text-center text-muted py-5">
+                  Henüz başvuru kaydı bulunmuyor.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
