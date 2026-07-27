@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+Yeni Başvuru
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Yeni Başvuru Ekle</h1>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Başvuruyu Kaydet
+    </button>
+
+</form>
+
+<a href="{% url 'applications:list' %}">
+    Başvuru Listesine Dön
+</a>
+
+{% endblock %}

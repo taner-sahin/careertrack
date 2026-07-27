@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}
+Başvuru Detayı
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Başvuru Detayı</h1>
+
+<hr>
+
+<h2>
+    {{ application.company }}
+    -
+    {{ application.position }}
+</h2>
+
+<p>
+    <strong>Durum:</strong>
+    {{ application.get_status_display }}
+</p>
+
+<p>
+    <strong>Başvuru Tarihi:</strong>
+    {{ application.application_date }}
+</p>
+
+<p>
+    <strong>Notlar:</strong>
+</p>
+
+{% if application.notes %}
+
+    <p>
+        {{ application.notes }}
+    </p>
+
+{% else %}
+
+    <p>
+        Bu başvuru için henüz not eklenmemiş.
+    </p>
+
+{% endif %}
+
+<hr>
+
+<a href="{% url 'applications:update' application.slug %}">
+    Başvuruyu Düzenle
+</a>
+
+<br><br>
+
+<a href="{% url 'applications:delete' application.slug %}">
+
+Başvuruyu Sil
+
+</a>
+
+<br>
+<br>
+
+<a href="{% url 'applications:list' %}">
+    Başvuru Listesine Dön
+</a>
+
+{% endblock %}

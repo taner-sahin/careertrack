@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+Başvuruyu Sil
+{% endblock %}
+
+{% block content %}
+
+<h1>Başvuruyu Sil</h1>
+
+<p>
+
+    "{{ application.company }} - {{ application.position }}"
+
+    başvurusunu silmek istediğinize emin misiniz?
+
+</p>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    <button type="submit">
+
+        Evet, Sil
+
+    </button>
+
+</form>
+
+<br>
+
+<a href="{% url 'applications:detail' application.slug %}">
+
+Vazgeç
+
+</a>
+
+{% endblock %}

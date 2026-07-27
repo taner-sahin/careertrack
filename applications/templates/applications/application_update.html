@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+Başvuruyu Düzenle
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Başvuruyu Düzenle</h1>
+
+<h2>
+    {{ application.company }}
+    -
+    {{ application.position }}
+</h2>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Değişiklikleri Kaydet
+    </button>
+
+</form>
+
+<a href="{% url 'applications:detail' application.slug %}">
+    Başvuru Detayına Dön
+</a>
+
+{% endblock %}
