@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+
 from .models import Company
 
 
@@ -10,7 +11,6 @@ class CompanyTests(TestCase):
             name="Test Company",
             website="https://www.testcompany.com",
             location="İstanbul",
-            
         )
 
     def test_company_str(self):
@@ -18,58 +18,108 @@ class CompanyTests(TestCase):
             str(self.company),
             "Test Company",
         )
-        
+
     def test_company_slug_created(self):
-     self.assertIsNotNone(
-        self.company.slug
-    )
-
-     self.assertEqual(
-        self.company.slug,
-        "test-company",
-    )
-     
-    def test_company_list_view(self):
-     response = self.client.get(
-        reverse("companies:list")
-    )
-
-     self.assertEqual(
-        response.status_code,
-        200,
-    )
-
-     self.assertContains(
-        response,
-        "Test Company",
-    )
-    
-    def test_company_detail_view(self):
-     response = self.client.get(
-        reverse(
-            "companies:detail",
-            kwargs={"slug": self.company.slug},
+        self.assertIsNotNone(
+            self.company.slug
         )
-    )
 
-     self.assertEqual(
-        response.status_code,
-        200,
-    )
+        self.assertEqual(
+            self.company.slug,
+            "test-company",
+        )
 
-     self.assertContains(
-        response,
-        "Test Company",
-    )
-     
+    def test_company_list_view(self):
+        response = self.client.get(
+            reverse("companies:list")
+        )
+
+        self.assertEqual(
+            response.status_code,
+            200,
+        )
+
+        self.assertContains(
+            response,
+            "Test Company",
+        )
+
+    def test_company_detail_view(self):
+        response = self.client.get(
+            reverse(
+                "companies:detail",
+                kwargs={
+                    "slug": self.company.slug,
+                },
+            )
+        )
+
+        self.assertEqual(
+            response.status_code,
+            200,
+        )
+
+        self.assertContains(
+            response,
+            "Test Company",
+        )
+
     def test_company_create_view(self):
+        response = self.client.post(
+            reverse("companies:create"),
+            {
+                "name": "Microsoft",
+                "website": "https://www.microsoft.com",
+                "location": "USA",
+            },
+        )
+
+        self.assertEqual(
+            response.status_code,
+            302,
+        )
+
+        self.assertTrue(
+            Company.objects.filter(
+                name="Microsoft"
+            ).exists()
+        )
+
+    def test_company_update_view(self):
+        response = self.client.post(
+            reverse(
+                "companies:update",
+                kwargs={
+                    "slug": self.company.slug,
+                },
+            ),
+            {
+                "name": "Updated Company",
+                "website": "https://updatedcompany.com",
+                "location": "Ankara",
+            },
+        )
+
+        self.assertEqual(
+            response.status_code,
+            302,
+        )
+
+        self.company.refresh_from_db()
+
+        self.assertEqual(
+            self.company.name,
+            "Updated Company",
+        )
+        
+    def test_company_delete_view(self):
      response = self.client.post(
-        reverse("companies:create"),
-        {
-            "name": "Microsoft",
-            "website": "https://www.microsoft.com",
-            "location": "USA",
-        },
+        reverse(
+            "companies:delete",
+            kwargs={
+                "slug": self.company.slug,
+            },
+        )
     )
 
      self.assertEqual(
@@ -77,10 +127,8 @@ class CompanyTests(TestCase):
         302,
     )
 
-     self.assertTrue(
+     self.assertFalse(
         Company.objects.filter(
-            name="Microsoft"
+            id=self.company.id,
         ).exists()
     )
-     
-    

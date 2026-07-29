@@ -1,69 +1,131 @@
 {% extends "base.html" %}
 
 {% block title %}
-Başvuru Detayı
+    {{ application.position }} | CareerTrack
 {% endblock %}
 
+{% block page_title %}
+    Başvuru Detayı
+{% endblock %}
+
+{% block page_description %}
+    İş başvurusu bilgilerini görüntüle
+{% endblock %}
 
 {% block content %}
 
-<h1>Başvuru Detayı</h1>
+<div class="row g-4">
 
-<hr>
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
 
-<h2>
-    {{ application.company }}
-    -
-    {{ application.position }}
-</h2>
+                <div class="d-flex justify-content-between gap-3 mb-4">
 
-<p>
-    <strong>Durum:</strong>
-    {{ application.get_status_display }}
-</p>
+                    <div>
+                        <h2 class="fw-bold mb-2">
+                            {{ application.position }}
+                        </h2>
 
-<p>
-    <strong>Başvuru Tarihi:</strong>
-    {{ application.application_date }}
-</p>
+                        <a
+                            href="{% url 'companies:detail' application.company.slug %}"
+                            class="text-decoration-none fw-semibold"
+                        >
+                            {{ application.company.name }}
+                        </a>
+                    </div>
 
-<p>
-    <strong>Notlar:</strong>
-</p>
+                    <span class="badge text-bg-primary align-self-start fs-6">
+                        {{ application.get_status_display }}
+                    </span>
 
-{% if application.notes %}
+                </div>
 
-    <p>
-        {{ application.notes }}
-    </p>
+                <hr>
 
-{% else %}
+                <div class="row gy-4">
 
-    <p>
-        Bu başvuru için henüz not eklenmemiş.
-    </p>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">
+                            Başvuru Tarihi
+                        </h6>
 
-{% endif %}
+                        <p class="mb-0 fw-semibold">
+                            {{ application.application_date }}
+                        </p>
+                    </div>
 
-<hr>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">
+                            Şirket Konumu
+                        </h6>
 
-<a href="{% url 'applications:update' application.slug %}">
-    Başvuruyu Düzenle
-</a>
+                        <p class="mb-0 fw-semibold">
+                            {% if application.company.location %}
+                                {{ application.company.location }}
+                            {% else %}
+                                Belirtilmedi
+                            {% endif %}
+                        </p>
+                    </div>
 
-<br><br>
+                    <div class="col-12">
+                        <h6 class="text-muted">
+                            Notlar
+                        </h6>
 
-<a href="{% url 'applications:delete' application.slug %}">
+                        {% if application.notes %}
+                            <div class="bg-light rounded-3 p-3">
+                                {{ application.notes|linebreaks }}
+                            </div>
+                        {% else %}
+                            <div class="bg-light rounded-3 p-3 text-muted">
+                                Bu başvuru için henüz not eklenmemiş.
+                            </div>
+                        {% endif %}
+                    </div>
 
-Başvuruyu Sil
+                </div>
+            </div>
+        </div>
+    </div>
 
-</a>
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
 
-<br>
-<br>
+                <h5 class="fw-bold mb-4">
+                    Hızlı İşlemler
+                </h5>
 
-<a href="{% url 'applications:list' %}">
-    Başvuru Listesine Dön
-</a>
+                <div class="d-grid gap-3">
+
+                    <a
+                        href="{% url 'applications:list' %}"
+                        class="btn btn-outline-secondary"
+                    >
+                        ← Başvuru Listesi
+                    </a>
+
+                    <a
+                        href="{% url 'applications:update' application.slug %}"
+                        class="btn btn-warning"
+                    >
+                        Başvuruyu Güncelle
+                    </a>
+
+                    <a
+                        href="{% url 'applications:delete' application.slug %}"
+                        class="btn btn-danger"
+                    >
+                        Başvuruyu Sil
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 {% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+Şirket Sil
+{% endblock %}
+
+{% block page_title %}
+Şirketi Sil
+{% endblock %}
+
+{% block page_description %}
+Silme işlemini onaylayın.
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <h3>
+            {{ company.name }}
+        </h3>
+
+        <p>
+            Bu şirketi silmek istediğinize emin misiniz?
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="btn btn-danger"
+            >
+                Evet, Sil
+            </button>
+
+            <a
+                href="{% url 'companies:detail' company.slug %}"
+                class="btn btn-secondary"
+            >
+                Vazgeç
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,54 +1,141 @@
 {% extends "base.html" %}
 
 {% block title %}
-Başvurularım
+    Başvurularım | CareerTrack
 {% endblock %}
 
+{% block page_title %}
+    Başvurularım
+{% endblock %}
+
+{% block page_description %}
+    İş başvurularını görüntüle ve yönet
+{% endblock %}
 
 {% block content %}
 
-<h1>Başvurularım</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">
+            Başvurularım
+        </h2>
 
-<a href="{% url 'applications:create' %}">
-    Yeni Başvuru Ekle
-</a>
+        <p class="text-muted mb-0">
+            Tüm iş başvurularını tek ekrandan takip et.
+        </p>
+    </div>
 
-<hr>
+    <a
+        href="{% url 'applications:create' %}"
+        class="btn btn-primary"
+    >
+        + Yeni Başvuru
+    </a>
+</div>
 
-{% if applications %}
+<div class="row g-4">
 
     {% for application in applications %}
 
-        <div>
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
 
-            <h2>
-                <a href="{% url 'applications:detail' application.slug %}">
-                    {{ application.company }}
-                    -
-                    {{ application.position }}
-                </a>
-            </h2>
+                    <div class="d-flex justify-content-between gap-3 mb-3">
 
-            <p>
-                Durum:
-                {{ application.get_status_display }}
-            </p>
+                        <div>
+                            <h4 class="fw-bold mb-1">
+                                <a
+                                    href="{% url 'applications:detail' application.slug %}"
+                                    class="text-decoration-none text-dark"
+                                >
+                                    {{ application.position }}
+                                </a>
+                            </h4>
 
-            <p>
-                Başvuru Tarihi:
-                {{ application.application_date }}
-            </p>
+                            <p class="text-primary fw-semibold mb-0">
+                                {{ application.company.name }}
+                            </p>
+                        </div>
 
+                        <span class="badge text-bg-primary align-self-start">
+                            {{ application.get_status_display }}
+                        </span>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="row gy-3">
+
+                        <div class="col-md-6">
+                            <small class="text-muted d-block">
+                                Başvuru Tarihi
+                            </small>
+
+                            <span class="fw-semibold">
+                                {{ application.application_date }}
+                            </span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <small class="text-muted d-block">
+                                Konum
+                            </small>
+
+                            <span class="fw-semibold">
+                                {% if application.company.location %}
+                                    {{ application.company.location }}
+                                {% else %}
+                                    Belirtilmedi
+                                {% endif %}
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer bg-white border-0 px-4 pb-4">
+
+                    <a
+                        href="{% url 'applications:detail' application.slug %}"
+                        class="btn btn-outline-primary w-100"
+                    >
+                        Başvuru Detayını Gör
+                    </a>
+
+                </div>
+            </div>
         </div>
 
-        <hr>
+    {% empty %}
+
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5 text-center">
+
+                    <h4 class="fw-bold">
+                        Henüz başvuru bulunmuyor
+                    </h4>
+
+                    <p class="text-muted">
+                        İlk iş başvurunu ekleyerek takibe başlayabilirsin.
+                    </p>
+
+                    <a
+                        href="{% url 'applications:create' %}"
+                        class="btn btn-primary"
+                    >
+                        İlk Başvuruyu Ekle
+                    </a>
+
+                </div>
+            </div>
+        </div>
 
     {% endfor %}
 
-{% else %}
-
-    <p>Henüz kayıtlı bir başvurunuz bulunmuyor.</p>
-
-{% endif %}
+</div>
 
 {% endblock %}
