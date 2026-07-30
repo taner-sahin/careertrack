@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if interview %}Görüşmeyi Güncelle{% else %}Yeni Görüşme{% endif %}
+{% endblock %}
+
+{% block page_title %}
+  {% if interview %}Görüşmeyi Güncelle{% else %}Yeni Görüşme{% endif %}
+{% endblock %}
+
+{% block page_description %}
+  {% if interview %}
+    Görüşme bilgilerini düzenle
+  {% else %}
+    İş başvuruna yeni bir görüşme ekle
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-xl-8 col-lg-10">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="row g-3">
+            {% for field in form %}
+              <div class="{% if field.name == 'notes' or field.name == 'meeting_link' %}col-12{% else %}col-md-6{% endif %}">
+                <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
+                  {{ field.label }}
+                </label>
+
+                {{ field }}
+
+                {% if field.help_text %}
+                  <div class="form-text">{{ field.help_text }}</div>
+                {% endif %}
+
+                {% for error in field.errors %}
+                  <div class="text-danger small mt-1">{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'interviews:interview_list' %}" class="btn btn-outline-secondary">
+              ← Görüşme Listesi
+            </a>
+
+            <button type="submit" class="btn btn-primary">
+              {% if interview %}Değişiklikleri Kaydet{% else %}Görüşmeyi Kaydet{% endif %}
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

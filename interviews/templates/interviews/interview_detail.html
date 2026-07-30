@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Görüşme Detayı{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h1 class="h3 mb-1">Görüşme Detayı</h1>
+        <p class="text-muted mb-0">Planlanan görüşmenin bilgilerini görüntüle.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h2 class="h4 mb-1">
+                                {{ interview.application.company.name }}
+                            </h2>
+                            <p class="text-muted mb-0">
+                                {{ interview.application.position }}
+                            </p>
+                        </div>
+
+                        {% if interview.status == "scheduled" %}
+                            <span class="badge text-bg-warning">
+                                {{ interview.get_status_display }}
+                            </span>
+                        {% elif interview.status == "completed" %}
+                            <span class="badge text-bg-success">
+                                {{ interview.get_status_display }}
+                            </span>
+                        {% else %}
+                            <span class="badge text-bg-danger">
+                                {{ interview.get_status_display }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <hr>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Görüşme Türü</p>
+                            <p class="fw-semibold mb-0">
+                                {{ interview.get_interview_type_display }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Tarih ve Saat</p>
+                            <p class="fw-semibold mb-0">
+                                {{ interview.scheduled_at|date:"d.m.Y H:i" }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Konum</p>
+                            <p class="fw-semibold mb-0">
+                                {{ interview.location|default:"Belirtilmedi" }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">Görüşmeci</p>
+                            <p class="fw-semibold mb-0">
+                                {{ interview.interviewer_name|default:"Belirtilmedi" }}
+                            </p>
+                        </div>
+
+                        <div class="col-12">
+                            <p class="text-muted mb-1">Görüşme Bağlantısı</p>
+
+                            {% if interview.meeting_link %}
+                                <a href="{{ interview.meeting_link }}" target="_blank">
+                                    Görüşme bağlantısını aç
+                                </a>
+                            {% else %}
+                                <p class="fw-semibold mb-0">Belirtilmedi</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-12">
+                            <p class="text-muted mb-1">Notlar</p>
+                            <p class="mb-0">
+                                {{ interview.notes|default:"Not eklenmedi"|linebreaksbr }}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-3">Hızlı İşlemler</h2>
+
+                    <div class="d-grid gap-3">
+                        <a href="{% url 'interviews:interview_list' %}"
+                           class="btn btn-outline-secondary">
+                            ← Görüşme Listesi
+                        </a>
+
+                        <a href="{% url 'interviews:interview_update' interview.pk %}"
+                           class="btn btn-warning">
+                            Görüşmeyi Güncelle
+                        </a>
+
+                        <a href="{% url 'interviews:interview_delete' interview.pk %}"
+                           class="btn btn-danger">
+                            Görüşmeyi Sil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

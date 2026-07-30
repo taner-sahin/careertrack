@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Görüşmeler{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">Görüşmelerim</h1>
+            <p class="text-muted mb-0">Planlanan ve tamamlanan görüşmelerini takip et.</p>
+        </div>
+
+        <a href="{% url 'interviews:interview_create' %}" class="btn btn-primary">
+            + Yeni Görüşme
+        </a>
+    </div>
+
+    {% if interviews %}
+        <div class="card border-0 shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Şirket</th>
+                            <th>Pozisyon</th>
+                            <th>Görüşme Türü</th>
+                            <th>Tarih</th>
+                            <th>Durum</th>
+                            <th class="text-end">İşlem</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for interview in interviews %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    {{ interview.application.company.name }}
+                                </td>
+
+                                <td>{{ interview.application.position }}</td>
+
+                                <td>
+                                    {{ interview.get_interview_type_display }}
+                                </td>
+
+                                <td>
+                                    {{ interview.scheduled_at|date:"d.m.Y H:i" }}
+                                </td>
+
+                                <td>
+                                    {% if interview.status == "scheduled" %}
+                                        <span class="badge text-bg-warning">
+                                            {{ interview.get_status_display }}
+                                        </span>
+                                    {% elif interview.status == "completed" %}
+                                        <span class="badge text-bg-success">
+                                            {{ interview.get_status_display }}
+                                        </span>
+                                    {% else %}
+                                        <span class="badge text-bg-danger">
+                                            {{ interview.get_status_display }}
+                                        </span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-end">
+                                    <a href="{% url 'interviews:interview_detail' interview.pk %}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Detay
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <h2 class="h5 mb-2">Henüz görüşme kaydı yok</h2>
+                <p class="text-muted mb-3">
+                    İlk görüşmeni ekleyerek süreci takip etmeye başlayabilirsin.
+                </p>
+
+                <a href="{% url 'interviews:interview_create' %}" class="btn btn-primary">
+                    + Yeni Görüşme
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

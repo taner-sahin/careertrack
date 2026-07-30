@@ -1,39 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}
-  Dashboard | CareerTrack
-{% endblock %}
-
-{% block page_title %}
-  Dashboard
-{% endblock %}
-
-{% block page_description %}
-  Başvuru sürecinin genel özeti
-{% endblock %}
+{% block title %}Dashboard | CareerTrack{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block page_description %}Başvuru sürecinin genel özeti{% endblock %}
 
 {% block content %}
+
 <!-- İSTATİSTİK KARTLARI -->
 <div class="row g-4 mb-4">
+
   <div class="col-xl-3 col-md-6">
     <div class="card border-0 shadow-sm h-100">
       <div class="card-body">
         <div class="d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bold mb-0">{{ total_companies }}</h3>
-          </div>
-
-          <div
-            class="bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center"
-            style="width: 48px; height: 48px"
-          >
+          <h3 class="fw-bold mb-0">{{ total_companies }}</h3>
+          <div class="bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center"
+               style="width: 48px; height: 48px;">
             <i class="bi bi-building fs-4"></i>
           </div>
         </div>
-
-        <small class="text-muted d-block mt-3">
-          Sisteme eklenen şirketler
-        </small>
+        <small class="text-muted d-block mt-3">Sisteme eklenen şirketler</small>
       </div>
     </div>
   </div>
@@ -42,18 +28,13 @@
     <div class="card border-0 shadow-sm h-100">
       <div class="card-body">
         <div class="d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bold mb-0">{{ total_applications }}</h3>
-          </div>
-
-          <div
-            class="bg-success-subtle text-success rounded-3 d-flex align-items-center justify-content-center"
-            style="width: 48px; height: 48px"
-          >
+          <h3 class="fw-bold mb-0">{{ total_applications }}</h3>
+          <div class="bg-success-subtle text-success rounded-3 d-flex align-items-center justify-content-center"
+               style="width: 48px; height: 48px;">
             <i class="bi bi-file-earmark-text fs-4"></i>
           </div>
         </div>
-        <small class="text-muted d-block mt-3"> Tüm başvurular </small>
+        <small class="text-muted d-block mt-3">Tüm başvurular</small>
       </div>
     </div>
   </div>
@@ -62,19 +43,13 @@
     <div class="card border-0 shadow-sm h-100">
       <div class="card-body">
         <div class="d-flex align-items-center justify-content-between">
-          <div>
-            <p class="text-muted mb-1">Yaklaşan Görüşmeler</p>
-          </div>
-
-          <div
-            class="bg-warning-subtle text-warning rounded-3 d-flex align-items-center justify-content-center"
-            style="width: 48px; height: 48px"
-          >
+          <h3 class="fw-bold mb-0">{{ upcoming_interview_count }}</h3>
+          <div class="bg-warning-subtle text-warning rounded-3 d-flex align-items-center justify-content-center"
+               style="width: 48px; height: 48px;">
             <i class="bi bi-calendar-event fs-4"></i>
           </div>
         </div>
-
-        <small class="text-muted d-block mt-3"> Planlanan mülakatlar </small>
+        <small class="text-muted d-block mt-3">Yaklaşan görüşmeler</small>
       </div>
     </div>
   </div>
@@ -83,220 +58,164 @@
     <div class="card border-0 shadow-sm h-100">
       <div class="card-body">
         <div class="d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bold mb-0">{{ accepted_applications }}</h3>
-          </div>
-
-          <div
-            class="bg-info-subtle text-info rounded-3 d-flex align-items-center justify-content-center"
-            style="width: 48px; height: 48px"
-          >
+          <h3 class="fw-bold mb-0">{{ accepted_applications }}</h3>
+          <div class="bg-info-subtle text-info rounded-3 d-flex align-items-center justify-content-center"
+               style="width: 48px; height: 48px;">
             <i class="bi bi-award fs-4"></i>
           </div>
         </div>
-
-        <small class="text-muted d-block mt-3"> Kabul edilen başvurular </small>
+        <small class="text-muted d-block mt-3">Kabul edilen başvurular</small>
       </div>
     </div>
   </div>
+
 </div>
 
-<!-- ALT BÖLÜM -->
-<div class="card-body px-4">
-  {% if recent_companies %}
+<!-- SON EKLENEN ŞİRKETLER -->
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-header bg-white border-0 pt-4 px-4">
+    <div class="d-flex align-items-center justify-content-between">
+      <div>
+        <h5 class="fw-bold mb-1">Son Eklenen Şirketler</h5>
+        <p class="text-muted small mb-0">Sisteme en son eklenen şirketler</p>
+      </div>
+      <a href="{% url 'companies:list' %}" class="btn btn-sm btn-outline-primary">
+        Tüm Şirketler
+      </a>
+    </div>
+  </div>
 
-  <div class="list-group list-group-flush">
-    {% for company in recent_companies %}
-
-    <div class="list-group-item px-0 py-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h6 class="fw-bold mb-1">{{ company.name }}</h6>
-
-          <small class="text-muted"> {{ company.location }} </small>
+  <div class="card-body px-4">
+    {% if recent_companies %}
+      <div class="list-group list-group-flush">
+        {% for company in recent_companies %}
+          <div class="list-group-item px-0 py-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="fw-bold mb-1">{{ company.name }}</h6>
+                <small class="text-muted">
+                  {{ company.location|default:"Konum belirtilmedi" }}
+                </small>
+              </div>
+              <a href="{% url 'companies:detail' company.slug %}"
+                 class="btn btn-sm btn-outline-primary">
+                Detay
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-center py-5">
+        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+             style="width: 64px; height: 64px;">
+          <i class="bi bi-building text-muted fs-3"></i>
         </div>
-
-        <a
-          href="{% url 'companies:detail' company.slug %}"
-          class="btn btn-sm btn-outline-primary"
-        >
-          Detay
+        <h6 class="fw-semibold">Henüz şirket eklenmedi</h6>
+        <p class="text-muted small">İlk şirket kaydını oluşturarak başlayabilirsin.</p>
+        <a href="{% url 'companies:create' %}" class="btn btn-primary">
+          <i class="bi bi-plus-lg me-1"></i>Yeni Şirket Ekle
         </a>
       </div>
-    </div>
-
-    {% endfor %}
+    {% endif %}
   </div>
-
-  {% else %}
-
-  <div class="text-center py-5">
-    <div
-      class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-      style="width: 64px; height: 64px"
-    >
-      <i class="bi bi-building text-muted fs-3"></i>
-    </div>
-    <h6 class="fw-semibold">Henüz şirket eklenmedi</h6>
-    <p class="text-muted small">
-      İlk şirket kaydını oluşturarak başlayabilirsin.
-    </p>
-    <a href="{% url 'companies:create' %}" class="btn btn-primary">
-      <i class="bi bi-plus-lg me-1"></i>
-      Yeni Şirket Ekle
-    </a>
-  </div>
-  {% endif %}
 </div>
 
 <!-- SON BAŞVURULAR -->
-<div class="row g-4 mt-1">
-  <div class="col-12">
-    <div class="card border-0 shadow-sm">
-      <div class="card-header bg-white border-0 pt-4 px-4">
-        <div class="d-flex align-items-center justify-content-between">
-          <div>
-            <h5 class="fw-bold mb-1">Son Başvurular</h5>
-
-            <p class="text-muted small mb-0">
-              En son oluşturulan iş başvuruları
-            </p>
-          </div>
-          <a
-            href="{% url 'applications:list' %}"
-            class="btn btn-sm btn-outline-primary"
-          >
-            Tüm Başvurular
-          </a>
-        </div>
+<div class="card border-0 shadow-sm">
+  <div class="card-header bg-white border-0 pt-4 px-4">
+    <div class="d-flex align-items-center justify-content-between">
+      <div>
+        <h5 class="fw-bold mb-1">Son Başvurular</h5>
+        <p class="text-muted small mb-0">En son oluşturulan iş başvuruları</p>
       </div>
+      <a href="{% url 'applications:list' %}" class="btn btn-sm btn-outline-primary">
+        Tüm Başvurular
+      </a>
+    </div>
+  </div>
 
-      <div class="card-body px-4">
-        <div class="table-responsive">
-          <table class="table align-middle">
-            <thead>
+  <div class="card-body px-4">
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Şirket</th>
+            <th>Pozisyon</th>
+            <th>Durum</th>
+            <th>Tarih</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% if recent_applications %}
+            {% for application in recent_applications %}
               <tr>
-                <th>Şirket</th>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center fw-bold"
+                         style="width: 42px; height: 42px;">
+                      {{ application.company.name|first|upper }}
+                    </div>
+                    <div>
+                      <h6 class="fw-semibold mb-1">{{ application.company.name }}</h6>
+                      <small class="text-muted">
+                        {{ application.company.location|default:"Konum belirtilmedi" }}
+                      </small>
+                    </div>
+                  </div>
+                </td>
 
-                <th>Pozisyon</th>
+                <td><span class="fw-medium">{{ application.position }}</span></td>
 
-                <th>Durum</th>
+                <td>
+                  {% if application.status == "applied" %}
+                    <span class="badge text-bg-primary">Başvuruldu</span>
+                  {% elif application.status == "interview" %}
+                    <span class="badge text-bg-warning">Mülakat</span>
+                  {% elif application.status == "accepted" %}
+                    <span class="badge text-bg-success">Kabul Edildi</span>
+                  {% elif application.status == "rejected" %}
+                    <span class="badge text-bg-danger">Reddedildi</span>
+                  {% else %}
+                    <span class="badge text-bg-secondary">
+                      {{ application.get_status_display }}
+                    </span>
+                  {% endif %}
+                </td>
 
-                <th>Tarih</th>
+                <td>
+                  <div class="d-flex align-items-center justify-content-between gap-3">
+                    <span class="text-muted">
+                      {{ application.application_date|date:"d.m.Y" }}
+                    </span>
+                    <a href="{% url 'applications:detail' application.slug %}"
+                       class="btn btn-sm btn-outline-primary">
+                      Detay
+                    </a>
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-  {% if recent_applications %}
-
-    {% for application in recent_applications %}
-      <tr>
-        <td>
-          <div class="d-flex align-items-center gap-3">
-            <div
-              class="bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center fw-bold"
-              style="width: 42px; height: 42px"
-            >
-              {{ application.company.name|first|upper }}
-            </div>
-
-            <div>
-              <h6 class="fw-semibold mb-1">
-                {{ application.company.name }}
-              </h6>
-
-              <small class="text-muted">
-                {{ application.company.location|default:"Konum belirtilmedi" }}
-              </small>
-            </div>
-          </div>
-        </td>
-
-        <td>
-          <span class="fw-medium">
-            {{ application.position }}
-          </span>
-        </td>
-
-        <td>
-          {% if application.status == 'applied' %}
-            <span class="badge text-bg-primary">
-              Başvuruldu
-            </span>
-
-          {% elif application.status == 'interview' %}
-            <span class="badge text-bg-warning">
-              Mülakat
-            </span>
-
-          {% elif application.status == 'accepted' %}
-            <span class="badge text-bg-success">
-              Kabul Edildi
-            </span>
-
-          {% elif application.status == 'rejected' %}
-            <span class="badge text-bg-danger">
-              Reddedildi
-            </span>
-
+            {% endfor %}
           {% else %}
-            <span class="badge text-bg-secondary">
-              {{ application.get_status_display }}
-            </span>
+            <tr>
+              <td colspan="4" class="text-center py-5">
+                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width: 64px; height: 64px;">
+                  <i class="bi bi-file-earmark-text text-muted fs-3"></i>
+                </div>
+                <h6 class="fw-semibold">Henüz başvuru kaydı bulunmuyor</h6>
+                <p class="text-muted small mb-3">
+                  İlk iş başvurunu oluşturarak takip etmeye başlayabilirsin.
+                </p>
+                <a href="{% url 'applications:create' %}" class="btn btn-primary">
+                  <i class="bi bi-plus-lg me-1"></i>Yeni Başvuru Ekle
+                </a>
+              </td>
+            </tr>
           {% endif %}
-        </td>
-
-        <td>
-          <div
-            class="d-flex align-items-center justify-content-between gap-3"
-          >
-            <span class="text-muted">
-              {{ application.application_date|date:"d.m.Y" }}
-            </span>
-
-            <a
-              href="{% url 'applications:detail' application.slug %}"
-              class="btn btn-sm btn-outline-primary"
-            >
-              Detay
-            </a>
-          </div>
-        </td>
-      </tr>
-    {% endfor %}
-
-  {% else %}
-    <tr>
-      <td colspan="4" class="text-center py-5">
-        <div
-          class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-          style="width: 64px; height: 64px"
-        >
-          <i class="bi bi-file-earmark-text text-muted fs-3"></i>
-        </div>
-
-        <h6 class="fw-semibold">
-          Henüz başvuru kaydı bulunmuyor
-        </h6>
-
-        <p class="text-muted small mb-3">
-          İlk iş başvurunu oluşturarak takip etmeye başlayabilirsin.
-        </p>
-
-        <a
-          href="{% url 'applications:create' %}"
-          class="btn btn-primary"
-        >
-          <i class="bi bi-plus-lg me-1"></i>
-          Yeni Başvuru Ekle
-        </a>
-      </td>
-    </tr>
-  {% endif %}
-</tbody>
-
-          </table>
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
