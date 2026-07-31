@@ -2,143 +2,607 @@
 
 <!doctype html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}CareerTrack{% endblock %}</title>
 
-    <title>{% block title %} CareerTrack
-        
-    {% endblock %}</title>
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
 
-    <!-- Bootstrap 5 CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    rel="stylesheet"
+  >
 
-    <!-- Bootstrap Icons -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-      rel="stylesheet"
-    />
+  <!-- Mevcut CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <!-- Kendi CSS dosyamız -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  </head>
+  <style>
+    :root {
+      --ct-sidebar: #061427;
+      --ct-sidebar-soft: #0b1d35;
+      --ct-primary: #3157f5;
+      --ct-primary-dark: #253ed0;
+      --ct-page-bg: #f6f8fc;
+      --ct-card-border: #e8edf5;
+      --ct-text: #111827;
+      --ct-muted: #718096;
+      --ct-sidebar-width: 250px;
+    }
 
-  <body class="bg-light">
-    <div class="d-flex min-vh-100">
-      <!-- SOL MENÜ -->
-      <aside
-        class="bg-white border-end p-3 d-flex flex-column"
-        style="width: 240px"
-      >
-        <!-- LOGO -->
-        <div class="mb-4">
-          <a
-            href="{% url 'core:home' %}"
-            class="text-decoration-none d-flex align-items-center gap-2"
-          >
-            <div
-              class="bg-primary text-white rounded-3 d-flex align-items-center justify-content-center"
-              style="width: 38px; height: 38px"
-            >
-              <i class="bi bi-briefcase-fill"></i>
-            </div>
+    * {
+      box-sizing: border-box;
+    }
 
-            <span class="fw-bold fs-5 text-dark"> CareerTrack </span>
-          </a>
-        </div>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ct-text);
+      background: var(--ct-page-bg);
+      font-family:
+        Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
 
-        <!-- KULLANICI BİLGİSİ -->
-        <div class="d-flex align-items-center gap-3 mb-4">
-          <div
-            class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold"
-            style="width: 44px; height: 44px"
-        
-            {% if user.is_authenticated %} {{ user.username|first|upper }} {%
-            else %}
+    /* SIDEBAR */
+    .ct-sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 1040;
+      width: var(--ct-sidebar-width);
+      min-height: 100vh;
+      padding: 24px 16px;
+      overflow-y: auto;
+      color: #fff;
+      background:
+        radial-gradient(circle at 30% 15%, rgba(49, 87, 245, 0.14), transparent 32%),
+        linear-gradient(180deg, #07172c 0%, #041124 100%);
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      transition: transform 0.25s ease;
+    }
 
-            <i class="bi bi-person"></i>
+    .ct-brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 2px 10px 26px;
+      color: #fff;
+      text-decoration: none;
+    }
 
-            {% endif %}
-          </div>
+    .ct-brand:hover {
+      color: #fff;
+    }
 
-          <div>
-            {% if user.is_authenticated %}
+    .ct-brand-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      color: #fff;
+      background: linear-gradient(135deg, #4081ff, #5638ed);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(49, 87, 245, 0.3);
+    }
 
-            <div class="fw-semibold">{{ user.username }}</div>
+    .ct-brand-name {
+      font-size: 1.25rem;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
 
-            <small class="text-muted"> Django Backend Developer </small>
+    .ct-user-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+    }
 
-            {% else %}
+    .ct-user-avatar {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      color: #fff;
+      font-weight: 700;
+      background: linear-gradient(135deg, #3978ff, #6840f3);
+      border-radius: 50%;
+    }
 
-            <div class="fw-semibold">Misafir Kullanıcı</div>
+    .ct-user-name {
+      margin: 0;
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
 
-            <small class="text-muted"> CareerTrack </small>
+    .ct-user-role {
+      color: #9fb0c9;
+      font-size: 0.74rem;
+      line-height: 1.35;
+    }
 
-            {% endif %}
-          </div>
-        </div>
+    .ct-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
 
-        <!-- MENÜ -->
-        <nav class="nav nav-pills flex-column gap-2">
-          <a href="{% url 'core:home' %}" class="nav-link text-dark">
-            <i class="bi bi-grid me-2"></i>
-            Dashboard
-          </a>
+    .ct-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 48px;
+      padding: 12px 14px;
+      color: #d2dcec;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 11px;
+      transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
 
-          <a href="{% url 'applications:list' %}" class="nav-link text-dark">
-            <i class="bi bi-file-earmark-text me-2"></i>
-            Başvurularım
-          </a>
+    .ct-nav-link i {
+      width: 22px;
+      font-size: 1.05rem;
+      text-align: center;
+    }
 
-          <a href="{% url 'companies:list' %}" class="nav-link text-dark">
-            <i class="bi bi-building me-2"></i>
-            Şirketler
-          </a>
+    .ct-nav-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.07);
+      transform: translateX(2px);
+    }
 
-          <a href="{% url 'interviews:interview_list' %}" class="nav-link">
-            <i class="bi bi-calendar-event me-2"></i>
-            Görüşmeler
-          </a>
-          
-          <a href="#" class="nav-link text-dark">
-            <i class="bi bi-journal-text me-2"></i>
-            Notlarım
-          </a>
+    .ct-nav-link.active {
+      color: #fff;
+      background: linear-gradient(135deg, #3157f5, #4033ce);
+      box-shadow: 0 10px 25px rgba(49, 87, 245, 0.28);
+    }
 
-          <a href="#" class="nav-link text-dark">
-            <i class="bi bi-bar-chart me-2"></i>
-            Raporlar
-          </a>
+    .ct-career-card {
+      padding: 20px 16px;
+      margin-top: 28px;
+      text-align: center;
+      background:
+        linear-gradient(145deg, rgba(20, 42, 76, 0.95), rgba(7, 24, 47, 0.95));
+      border: 1px solid rgba(133, 156, 190, 0.15);
+      border-radius: 16px;
+    }
 
-          <a href="#" class="nav-link text-dark">
-            <i class="bi bi-gear me-2"></i>
-            Ayarlar
-          </a>
-        </nav>
+    .ct-career-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 62px;
+      height: 62px;
+      margin-bottom: 14px;
+      color: #fff;
+      font-size: 1.7rem;
+      background: linear-gradient(135deg, #5c6cff, #5731ea);
+      border-radius: 18px;
+      box-shadow: 0 15px 30px rgba(83, 68, 235, 0.35);
+    }
 
-        <!-- ALT KISIM -->
-        <div class="mt-auto pt-4 border-top">
+    .ct-career-card p {
+      margin-bottom: 14px;
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .ct-career-btn {
+      display: block;
+      padding: 10px 12px;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      background: linear-gradient(135deg, #3157f5, #5135f0);
+      border-radius: 9px;
+    }
+
+    .ct-career-btn:hover {
+      color: #fff;
+      filter: brightness(1.07);
+    }
+
+    .ct-sidebar-bottom {
+      margin-top: auto;
+      padding-top: 24px;
+    }
+
+    .ct-logout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 14px;
+      color: #ff9d9d;
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 10px;
+    }
+
+    .ct-logout:hover {
+      color: #fff;
+      background: rgba(239, 68, 68, 0.22);
+    }
+
+    .ct-copyright {
+      margin-top: 18px;
+      color: #7184a0;
+      font-size: 0.72rem;
+      line-height: 1.7;
+    }
+
+    /* ANA ALAN */
+    .ct-main-wrapper {
+      min-height: 100vh;
+      margin-left: var(--ct-sidebar-width);
+      transition: margin-left 0.25s ease;
+    }
+
+    .ct-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid #e9edf4;
+      backdrop-filter: blur(14px);
+    }
+
+    .ct-menu-button {
+      display: none;
+      width: 40px;
+      height: 40px;
+      color: #334155;
+      background: transparent;
+      border: 0;
+      border-radius: 10px;
+    }
+
+    .ct-menu-button:hover {
+      background: #f0f4fa;
+    }
+
+    .ct-topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-left: auto;
+    }
+
+    .ct-search {
+      position: relative;
+      width: min(310px, 30vw);
+    }
+
+    .ct-search i {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      color: #718096;
+      transform: translateY(-50%);
+    }
+
+    .ct-search input {
+      height: 44px;
+      padding-left: 42px;
+      color: #334155;
+      background: #fff;
+      border: 1px solid #dfe5ee;
+      border-radius: 11px;
+      box-shadow: 0 5px 16px rgba(30, 55, 90, 0.04);
+    }
+
+    .ct-search input:focus {
+      border-color: #91a8ff;
+      box-shadow: 0 0 0 3px rgba(49, 87, 245, 0.1);
+    }
+
+    .ct-icon-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      color: #334155;
+      background: #fff;
+      border: 1px solid #e1e7f0;
+      border-radius: 11px;
+    }
+
+    .ct-notification-badge {
+      position: absolute;
+      top: -6px;
+      right: -5px;
+      min-width: 20px;
+      padding: 3px 5px;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-align: center;
+      background: #3d3ae8;
+      border: 2px solid #fff;
+      border-radius: 20px;
+    }
+
+    .ct-profile {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #111827;
+      text-decoration: none;
+    }
+
+    .ct-profile:hover {
+      color: #111827;
+    }
+
+    .ct-profile-avatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #3157f5, #6943f1);
+      border-radius: 50%;
+    }
+
+    .ct-profile-name {
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .ct-page {
+      padding: 28px;
+    }
+
+    .ct-page-heading {
+      margin-bottom: 24px;
+    }
+
+    .ct-page-title {
+      margin-bottom: 5px;
+      color: #111827;
+      font-size: clamp(1.45rem, 2vw, 1.85rem);
+      font-weight: 760;
+      letter-spacing: -0.03em;
+    }
+
+    .ct-page-description {
+      margin: 0;
+      color: #718096;
+      font-size: 0.92rem;
+    }
+
+    .ct-footer {
+      padding: 10px 28px 25px;
+      color: #8a97aa;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    .ct-sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1030;
+      display: none;
+      background: rgba(3, 12, 27, 0.58);
+    }
+
+    /* ORTAK KART STANDARDI */
+    .card {
+      border-color: var(--ct-card-border);
+      border-radius: 15px;
+    }
+
+    .shadow-sm {
+      box-shadow: 0 10px 28px rgba(30, 55, 90, 0.07) !important;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3157f5, #4033e5);
+      border-color: transparent;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #294be2, #372acb);
+      border-color: transparent;
+    }
+
+    @media (max-width: 991.98px) {
+      .ct-sidebar {
+        transform: translateX(-100%);
+      }
+
+      body.sidebar-open .ct-sidebar {
+        transform: translateX(0);
+      }
+
+      body.sidebar-open .ct-sidebar-overlay {
+        display: block;
+      }
+
+      .ct-main-wrapper {
+        margin-left: 0;
+      }
+
+      .ct-menu-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ct-topbar {
+        padding-inline: 18px;
+      }
+
+      .ct-page {
+        padding: 22px 18px;
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      .ct-search {
+        display: none;
+      }
+
+      .ct-profile-name {
+        display: none;
+      }
+
+      .ct-page {
+        padding: 20px 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- MOBİL ARKA PLAN -->
+  <div class="ct-sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- SOL MENÜ -->
+  <aside class="ct-sidebar" id="sidebar">
+    <div class="d-flex flex-column h-100">
+
+      <!-- LOGO -->
+      <a href="{% url 'core:home' %}" class="ct-brand">
+        <span class="ct-brand-logo">
+          <i class="bi bi-hexagon-fill"></i>
+        </span>
+        <span class="ct-brand-name">CareerTrack</span>
+      </a>
+
+      <!-- KULLANICI -->
+      <div class="ct-user-card">
+        <div class="ct-user-avatar">
           {% if user.is_authenticated %}
+            {{ user.username|first|upper }}
+          {% else %}
+            <i class="bi bi-person"></i>
+          {% endif %}
+        </div>
 
-          <a
-            href="{% url 'accounts:logout' %}"
-            class="btn btn-outline-danger w-100"
-          >
-            <i class="bi bi-box-arrow-right me-2"></i>
+        <div>
+          {% if user.is_authenticated %}
+            <p class="ct-user-name">{{ user.username }}</p>
+            <div class="ct-user-role">Django Backend Developer</div>
+          {% else %}
+            <p class="ct-user-name">Misafir Kullanıcı</p>
+            <div class="ct-user-role">CareerTrack</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- MENÜ -->
+      <nav class="ct-nav">
+        <a
+          href="{% url 'core:home' %}"
+          class="ct-nav-link {% if request.resolver_match.namespace == 'core' %}active{% endif %}"
+        >
+          <i class="bi bi-briefcase"></i>
+          Dashboard
+        </a>
+
+        <a
+          href="{% url 'applications:list' %}"
+          class="ct-nav-link {% if request.resolver_match.namespace == 'applications' %}active{% endif %}"
+        >
+          <i class="bi bi-file-earmark-text"></i>
+          Başvurularım
+        </a>
+
+        <a
+          href="{% url 'companies:list' %}"
+          class="ct-nav-link {% if request.resolver_match.namespace == 'companies' %}active{% endif %}"
+        >
+          <i class="bi bi-buildings"></i>
+          Şirketler
+        </a>
+
+        <a
+          href="{% url 'interviews:interview_list' %}"
+          class="ct-nav-link {% if request.resolver_match.namespace == 'interviews' %}active{% endif %}"
+        >
+          <i class="bi bi-chat-square-text"></i>
+          Görüşmeler
+        </a>
+
+        <a href="#" class="ct-nav-link">
+          <i class="bi bi-journal-text"></i>
+          Notlarım
+        </a>
+
+        <a href="#" class="ct-nav-link">
+          <i class="bi bi-bar-chart-line"></i>
+          Raporlar
+        </a>
+
+        <a href="#" class="ct-nav-link">
+          <i class="bi bi-gear"></i>
+          Ayarlar
+        </a>
+      </nav>
+
+      <!-- KARİYER KARTI -->
+      <div class="ct-career-card">
+        <div class="ct-career-icon">
+          <i class="bi bi-briefcase-fill"></i>
+        </div>
+
+        <p>
+          Kariyerini takip et,<br>
+          hedeflerine ulaş!
+        </p>
+
+        <a href="#" class="ct-career-btn">
+          İstatistikleri Gör
+        </a>
+      </div>
+
+      <!-- ALT KISIM -->
+      <div class="ct-sidebar-bottom">
+        {% if user.is_authenticated %}
+          <a href="{% url 'accounts:logout' %}" class="ct-logout">
+            <i class="bi bi-box-arrow-right"></i>
             Çıkış Yap
           </a>
-
-          {% else %}
-
+        {% else %}
           <div class="d-grid gap-2">
-            <a
-              href="{% url 'accounts:login' %}"
-              class="btn btn-outline-primary"
-            >
+            <a href="{% url 'accounts:login' %}" class="btn btn-outline-light">
               Giriş Yap
             </a>
 
@@ -146,77 +610,91 @@
               Kayıt Ol
             </a>
           </div>
+        {% endif %}
 
-          {% endif %}
+        <div class="ct-copyright">
+          © 2026 CareerTrack<br>
+          Tüm hakları saklıdır.
         </div>
-      </aside>
-
-      <!-- SAĞ TARAF -->
-      <div class="flex-grow-1">
-        <!-- ÜST BAR -->
-        <header class="bg-white border-bottom px-4 py-3">
-          <div class="d-flex align-items-center justify-content-between gap-3">
-            <div>
-              <h4 class="mb-1 fw-bold">
-                {% block page_title %} 
-                Dashboard
-                
-                {% endblock %}
-              </h4>
-
-              <p class="text-muted mb-0 small">
-                {% block page_description %} Başvuru sürecinin genel özeti 
-                
-                
-                {%endblock %}
-              </p>
-            </div>
-
-            <div class="d-flex align-items-center gap-3">
-              <!-- ARAMA -->
-              <div class="input-group d-none d-md-flex">
-                <span class="input-group-text bg-white border-end-0">
-                  <i class="bi bi-search text-muted"></i>
-                </span>
-
-                <input
-                  type="search"
-                  class="form-control border-start-0"
-                  placeholder="Ara..."
-                />
-              </div>
-
-              <!-- BİLDİRİM -->
-              <button type="button" class="btn btn-light position-relative">
-                <i class="bi bi-bell"></i>
-
-                <span
-                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                >
-                  1
-                </span>
-              </button>
-
-              <!-- YENİ ŞİRKET -->
-              <a href="{% url 'companies:create' %}" class="btn btn-primary">
-                <i class="bi bi-plus-lg me-1"></i>
-                Yeni Şirket
-              </a>
-            </div>
-          </div>
-        </header>
-
-        <!-- SAYFA İÇERİĞİ -->
-        <main class="p-4">{% block content %} {% endblock %}</main>
-
-        <!-- FOOTER -->
-        <footer class="text-center text-muted py-4 small">
-          © 2026 CareerTrack | Tüm hakları saklıdır.
-        </footer>
       </div>
     </div>
+  </aside>
 
-    <!-- Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+  <!-- SAĞ TARAF -->
+  <div class="ct-main-wrapper">
+
+    <!-- ÜST BAR -->
+    <header class="ct-topbar">
+      <button type="button" class="ct-menu-button" id="sidebarToggle">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+
+      <div class="ct-topbar-actions">
+        <div class="ct-search">
+          <i class="bi bi-search"></i>
+          <input type="search" class="form-control" placeholder="Ara...">
+        </div>
+
+        <button type="button" class="ct-icon-btn">
+          <i class="bi bi-bell fs-5"></i>
+          <span class="ct-notification-badge">1</span>
+        </button>
+
+        {% if user.is_authenticated %}
+          <a href="#" class="ct-profile">
+            <span class="ct-profile-avatar">
+              {{ user.username|first|upper }}
+            </span>
+
+            <span class="ct-profile-name">{{ user.username }}</span>
+            <i class="bi bi-chevron-down small"></i>
+          </a>
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="btn btn-primary">
+            Giriş Yap
+          </a>
+        {% endif %}
+      </div>
+    </header>
+
+    <!-- SAYFA -->
+    <main class="ct-page">
+      <div class="ct-page-heading">
+        <h1 class="ct-page-title">
+          {% block page_title %}Dashboard{% endblock %}
+        </h1>
+
+        <p class="ct-page-description">
+          {% block page_description %}
+            Başvuru süreçlerinin genel özeti
+          {% endblock %}
+        </p>
+      </div>
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="ct-footer">
+      © 2026 CareerTrack | Tüm hakları saklıdır.
+    </footer>
+  </div>
+
+  <!-- Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- YALNIZCA SIDEBAR GÖRÜNÜMÜ -->
+  <script>
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+    sidebarToggle?.addEventListener("click", () => {
+      document.body.classList.toggle("sidebar-open");
+    });
+
+    sidebarOverlay?.addEventListener("click", () => {
+      document.body.classList.remove("sidebar-open");
+    });
+  </script>
+</body>
 </html>
