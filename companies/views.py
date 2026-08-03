@@ -14,7 +14,7 @@ def company_create(request):
 
             form.save()
 
-            return redirect("home")
+            return redirect("core:home")
 
     else:
 
