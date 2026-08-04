@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ note.title }} | CareerTrack
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Not Detayı</h1>
+
+        <p class="text-muted mb-0">
+            Kariyer notunun ayrıntılarını görüntüle.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+
+                    <div
+                        class="d-flex justify-content-between
+                        align-items-start flex-wrap gap-3"
+                    >
+                        <div>
+                            <h2 class="fw-bold mb-2">
+                                {{ note.title }}
+                            </h2>
+
+                            <span class="text-muted">
+                                {{ note.get_category_display }} Notu
+                            </span>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2">
+
+                            {% if note.priority == "high" %}
+                                <span class="badge bg-danger">
+                                    {{ note.get_priority_display }}
+                                </span>
+
+                            {% elif note.priority == "medium" %}
+                                <span class="badge bg-warning text-dark">
+                                    {{ note.get_priority_display }}
+                                </span>
+
+                            {% else %}
+                                <span class="badge bg-success">
+                                    {{ note.get_priority_display }}
+                                </span>
+                            {% endif %}
+
+                            {% if note.is_pinned %}
+                                <span class="badge bg-primary">
+                                    Sabit
+                                </span>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row g-4 mb-4">
+
+                        <div class="col-md-6">
+                            <div class="text-muted mb-1">
+                                Kategori
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ note.get_category_display }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="text-muted mb-1">
+                                Öncelik
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ note.get_priority_display }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="text-muted mb-1">
+                                Oluşturulma Tarihi
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ note.created_at|date:"d.m.Y H:i" }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="text-muted mb-1">
+                                Son Güncelleme
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ note.updated_at|date:"d.m.Y H:i" }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <h5 class="fw-bold mb-3">
+                            Not İçeriği
+                        </h5>
+
+                        <div class="bg-light rounded-3 p-4">
+                            {{ note.content|linebreaks }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-4">
+                        Hızlı İşlemler
+                    </h4>
+
+                    <div class="d-grid gap-3">
+
+                        <a
+                            href="{% url 'notes:note_list' %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            ← Not Listesi
+                        </a>
+
+                        <a
+                            href="{% url 'notes:note_create' %}"
+                            class="btn btn-primary"
+                        >
+                            + Yeni Not
+                        </a>
+
+                        <a
+                            href="{% url 'notes:note_update' note.slug %}"
+                            class="btn btn-warning"
+                        >
+                            Notu Güncelle
+                        </a>
+
+                        <a
+                            href="{% url 'notes:note_delete' note.slug %}"
+                            class="btn btn-danger"
+                        >
+                            Notu Sil
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

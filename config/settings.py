@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'interviews',
     'dashboard',
     'core',
+    'notes'
 ]
 
 MIDDLEWARE = [

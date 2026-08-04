@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}
+Notlarım | CareerTrack
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Notlarım</h1>
+        <p class="text-muted mb-0">
+            Kariyer sürecin boyunca oluşturduğun notları görüntüle ve yönet.
+        </p>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+                <div>
+                    <h4 class="fw-bold mb-1">Not Listesi</h4>
+                    <p class="text-muted mb-0">
+                        Oluşturduğun tüm kariyer notları
+                    </p>
+                </div>
+
+                <a
+                    href="{% url 'notes:note_create' %}"
+                    class="btn btn-primary px-4"
+                >
+                    + Yeni Not Ekle
+                </a>
+
+            </div>
+
+            {% if notes %}
+
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+
+                        <thead>
+                            <tr>
+                                <th>Başlık</th>
+                                <th>Kategori</th>
+                                <th>Öncelik</th>
+                                <th>Sabit</th>
+                                <th>Güncelleme</th>
+                                <th class="text-end">İşlem</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for note in notes %}
+                                <tr>
+
+                                    <td>
+                                        <div class="fw-semibold">
+                                            {{ note.title }}
+                                        </div>
+                                        <small class="text-muted">
+                                            Kariyer notu
+                                        </small>
+                                    </td>
+
+                                    <td>
+                                        {{ note.get_category_display }}
+                                    </td>
+
+                                    <td>
+                                        {% if note.priority == "high" %}
+                                            <span class="badge bg-danger">
+                                                {{ note.get_priority_display }}
+                                            </span>
+
+                                        {% elif note.priority == "medium" %}
+                                            <span class="badge bg-warning text-dark">
+                                                {{ note.get_priority_display }}
+                                            </span>
+
+                                        {% else %}
+                                            <span class="badge bg-success">
+                                                {{ note.get_priority_display }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if note.is_pinned %}
+                                            <span class="badge bg-primary">
+                                                Sabit
+                                            </span>
+                                        {% else %}
+                                            <span class="text-muted">
+                                                —
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {{ note.updated_at|date:"d.m.Y H:i" }}
+                                    </td>
+
+                                    <td class="text-end">
+                                        <a
+                                            href="{% url 'notes:note_detail' note.slug %}"
+                                            class="btn btn-outline-primary btn-sm"
+                                        >
+                                            Detay
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-5">
+
+                    <h5 class="fw-bold mb-2">
+                        Henüz not oluşturmadın
+                    </h5>
+
+                    <p class="text-muted mb-4">
+                        Başvuru, görüşme ve kariyer hedeflerinle ilgili
+                        ilk notunu oluşturabilirsin.
+                    </p>
+
+                    <a
+                        href="{% url 'notes:note_create' %}"
+                        class="btn btn-primary px-4"
+                    >
+                        İlk Notu Oluştur
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

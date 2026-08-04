@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}
+Notu Sil | CareerTrack
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Notu Sil</h1>
+
+        <p class="text-muted mb-0">
+            Silme işlemini onaylamadan önce not bilgilerini kontrol et.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="display-5 mb-3">
+                            ⚠️
+                        </div>
+
+                        <h2 class="fw-bold mb-3">
+                            Bu notu silmek istediğine emin misin?
+                        </h2>
+
+                        <p class="text-muted mb-0">
+                            Bu işlem geri alınamaz.
+                        </p>
+
+                    </div>
+
+                    <div class="bg-light rounded-3 p-4 mb-4">
+
+                        <div class="mb-3">
+                            <span class="text-muted d-block mb-1">
+                                Not Başlığı
+                            </span>
+
+                            <span class="fw-bold">
+                                {{ note.title }}
+                            </span>
+                        </div>
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <span class="text-muted d-block mb-1">
+                                    Kategori
+                                </span>
+
+                                <span class="fw-semibold">
+                                    {{ note.get_category_display }}
+                                </span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <span class="text-muted d-block mb-1">
+                                    Öncelik
+                                </span>
+
+                                <span class="fw-semibold">
+                                    {{ note.get_priority_display }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="d-flex justify-content-center flex-wrap gap-3">
+
+                            <a
+                                href="{% url 'notes:note_detail' note.slug %}"
+                                class="btn btn-outline-secondary px-4"
+                            >
+                                Vazgeç
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger px-4"
+                            >
+                                Notu Kalıcı Olarak Sil
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
