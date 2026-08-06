@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'interviews',
     'dashboard',
     'core',
-    'notes'
+    'notes',
+    'reports',
 ]
 
 MIDDLEWARE = [

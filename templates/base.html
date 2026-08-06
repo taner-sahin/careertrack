@@ -570,10 +570,13 @@
     Notlarım
   </a>
 
-  <a href="#" class="ct-nav-link">
+   <a
+    href="{% url 'reports:report_dashboard' %}"
+    class="ct-nav-link {% if request.resolver_match.namespace == 'reports' %}active{% endif %}"
+>
     <i class="bi bi-bar-chart-line"></i>
     Raporlar
-  </a>
+</a>
 
   <a href="#" class="ct-nav-link">
     <i class="bi bi-gear"></i>
