@@ -519,8 +519,9 @@
         <!-- KULLANICI -->
         <div class="ct-user-card">
           <div class="ct-user-avatar">
-            {% if user.is_authenticated %} {{ user.username|first|upper }} {%
-            else %}
+            {% if user.is_authenticated %} {{ user.username|first|upper }} 
+            
+            {%else %}
             <i class="bi bi-person"></i>
             {% endif %}
           </div>
@@ -647,7 +648,15 @@
         <div class="ct-topbar-actions">
           <div class="ct-search">
             <i class="bi bi-search"></i>
-            <input type="search" class="form-control" placeholder="Ara..." />
+            <form method="get" action="{% url 'core:search' %}" class="d-flex">
+              <input
+                type="search"
+                name="q"
+                class="form-control"
+                placeholder="Ara..."
+                value="{{ request.GET.q }}"
+              />
+            </form>
           </div>
 
           <button type="button" class="ct-icon-btn">
@@ -680,9 +689,8 @@
           </h1>
 
           <p class="ct-page-description">
-            {% block page_description %} Başvuru süreçlerinin genel özeti 
-            
-            {% endblock %}
+            {% block page_description %} Başvuru süreçlerinin genel özeti
+            {%endblock %}
           </p>
         </div>
 

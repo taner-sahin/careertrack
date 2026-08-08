@@ -22,7 +22,7 @@ def login_view(request):
 
             login(request, user)
 
-            return redirect("home")
+            return redirect("core:home")
 
     return render(request, "login.html")
 

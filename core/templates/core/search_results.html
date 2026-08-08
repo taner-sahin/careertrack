@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+Arama Sonuçları | CareerTrack
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Arama Sonuçları</h1>
+
+        <p class="text-muted mb-0">
+            "{{ query }}" için bulunan sonuçlar
+        </p>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+
+            <h4 class="fw-bold">Şirketler</h4>
+
+            {% for company in companies %}
+                <p>
+                    <a href="{% url 'companies:detail' company.slug %}">
+                        {{ company.name }}
+                    </a>
+                </p>
+            {% empty %}
+                <p class="text-muted">Şirket bulunamadı.</p>
+            {% endfor %}
+
+            <hr>
+
+            <h4 class="fw-bold">Başvurular</h4>
+
+            {% for application in applications %}
+                <p>
+                    <a href="{% url 'applications:detail' application.slug %}">
+                        {{ application.position }} - {{ application.company.name }}
+                    </a>
+                </p>
+            {% empty %}
+                <p class="text-muted">Başvuru bulunamadı.</p>
+            {% endfor %}
+
+            <hr>
+
+            <h4 class="fw-bold">Görüşmeler</h4>
+
+            {% for interview in interviews %}
+                <p>
+                    <a href="{% url 'interviews:interview_detail' interview.pk %}">
+                        {{ interview.application.position }}
+                    </a>
+                </p>
+            {% empty %}
+                <p class="text-muted">Görüşme bulunamadı.</p>
+            {% endfor %}
+
+            <hr>
+
+            <h4 class="fw-bold">Notlar</h4>
+
+            {% for note in notes %}
+                <p>
+                    <a href="{% url 'notes:note_detail' note.slug %}">
+                        {{ note.title }}
+                    </a>
+                </p>
+            {% empty %}
+                <p class="text-muted">Not bulunamadı.</p>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
