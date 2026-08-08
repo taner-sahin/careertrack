@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}
+Hatırlatıcı Detayı | CareerTrack
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold">{{ reminder.title }}</h1>
+        <p class="text-muted">
+            Hatırlatıcı detayları
+        </p>
+    </div>
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+            <p>
+                <strong>Tür:</strong>
+                {{ reminder.get_reminder_type_display }}
+            </p>
+            <p>
+                <strong>Hatırlatma Tarihi:</strong>
+                {{ reminder.remind_at|date:"d.m.Y H:i" }}
+            </p>
+
+            {% if reminder.application %}
+                <p>
+                    <strong>Başvuru:</strong>
+                    {{ reminder.application }}
+                </p>
+            {% endif %}
+
+            {% if reminder.interview %}
+                <p>
+                    <strong>Görüşme:</strong>
+                    {{ reminder.interview }}
+                </p>
+            {% endif %}
+
+            {% if reminder.notes %}
+                <p>
+                    <strong>Not:</strong>
+                    {{ reminder.notes }}
+                </p>
+            {% endif %}
+
+            <p>
+                <strong>Durum:</strong>
+                {% if reminder.is_completed %}
+                    Tamamlandı
+                {% else %}
+                    Bekliyor
+                {% endif %}
+            </p>
+            <div class="mt-4">
+                <a
+                    href="{% url 'reminders:reminder_update' reminder.pk %}"
+                    class="btn btn-primary"
+                >
+                    Düzenle
+                </a>
+                <a
+                    href="{% url 'reminders:reminder_delete' reminder.pk %}"
+                    class="btn btn-outline-danger"
+                >
+                    Sil
+                </a>
+                <a
+                    href="{% url 'reminders:reminder_list' %}"
+                    class="btn btn-outline-secondary"
+                >
+                    Geri Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

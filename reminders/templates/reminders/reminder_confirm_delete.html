@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+Hatırlatıcıyı Sil | CareerTrack
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+
+            <h1 class="fw-bold mb-3">
+                Hatırlatıcıyı Sil
+            </h1>
+
+            <p>
+                <strong>{{ reminder.title }}</strong>
+                adlı hatırlatıcıyı silmek istediğine emin misin?
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                >
+                    Evet, Sil
+                </button>
+
+                <a
+                    href="{% url 'reminders:reminder_detail' reminder.pk %}"
+                    class="btn btn-outline-secondary"
+                >
+                    Vazgeç
+                </a>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

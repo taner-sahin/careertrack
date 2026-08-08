@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'core',
     'notes',
     'reports',
+    'reminders',
 ]
 
 MIDDLEWARE = [

@@ -519,8 +519,7 @@
         <!-- KULLANICI -->
         <div class="ct-user-card">
           <div class="ct-user-avatar">
-            {% if user.is_authenticated %} {{ user.username|first|upper }} 
-            
+            {% if user.is_authenticated %} {{ user.username|first|upper }}
             {%else %}
             <i class="bi bi-person"></i>
             {% endif %}
@@ -579,6 +578,13 @@
             Notlarım
           </a>
 
+          <a
+            href="{% url 'reminders:reminder_list' %}"
+            class="ct-nav-link {% if request.resolver_match.namespace == 'reminders' %}active{% endif %}"
+          >
+            <i class="bi bi-bell"></i>
+            Hatırlatıcılar
+          </a>
           <a
             href="{% url 'reports:report_dashboard' %}"
             class="ct-nav-link {% if request.resolver_match.namespace == 'reports' %}active{% endif %}"

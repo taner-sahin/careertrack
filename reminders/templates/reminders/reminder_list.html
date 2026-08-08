@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+Hatırlatıcılar | CareerTrack
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">Hatırlatıcılar</h1>
+            <p class="text-muted mb-0">
+                Yaklaşan görev ve görüşme hatırlatıcılarını yönet.
+            </p>
+        </div>
+        <a
+            href="{% url 'reminders:reminder_create' %}"
+            class="btn btn-primary"
+        >
+            + Yeni Hatırlatıcı
+        </a>
+    </div>
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+            {% for reminder in reminders %}
+                <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+                    <div>
+                        <h5 class="mb-1">
+                            {{ reminder.title }}
+                        </h5>
+                        <small class="text-muted">
+                            {{ reminder.get_reminder_type_display }}
+                            ·
+                            {{ reminder.remind_at|date:"d.m.Y H:i" }}
+                        </small>
+                    </div>
+                    <a
+                        href="{% url 'reminders:reminder_detail' reminder.pk %}"
+                        class="btn btn-outline-primary btn-sm"
+                    >
+                        Detay
+                    </a>
+                </div>
+            {% empty %}
+                <p class="text-muted mb-0">
+                    Henüz hatırlatıcı oluşturulmadı.
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
