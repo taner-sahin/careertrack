@@ -72,6 +72,9 @@ class ReportDashboardTest(TestCase):
             "total_notes",
             "high_priority_notes",
             "pinned_notes",
+            "acceptance_rate",
+            "interview_rate",
+            "interview_completion_rate",
         ]
 
         for context_key in expected_zero_values:
@@ -145,6 +148,16 @@ class ReportDashboardTest(TestCase):
             response.context["interview_applications"],
             1,
         )
+        
+        self.assertEqual(
+          response.context["acceptance_rate"],
+          20.0,
+        )
+        
+        self.assertEqual(
+          response.context["interview_rate"],
+          20.0,
+        )
 
     def test_interview_statistics_are_calculated_correctly(self):
         company = Company.objects.create(
@@ -216,6 +229,12 @@ class ReportDashboardTest(TestCase):
             response.context["completed_interviews"],
             1,
         )
+        
+        
+        self.assertEqual(
+         response.context["interview_completion_rate"],
+         25.0,
+         )
 
     def test_note_statistics_are_calculated_correctly(self):
         note_data = [
@@ -486,3 +505,235 @@ class ReportDashboardTest(TestCase):
             response.context["pinned_notes"],
             1,
         )
+
+
+    def test_recent_applications_are_calculated_correctly(self):
+     company = Company.objects.create(
+        name="Recent Test Şirketi",
+        website="https://recenttest.com",
+        location="İstanbul",
+    )
+
+     Application.objects.create(
+        user=self.user,
+        company=company,
+        position="Recent Django Developer",
+        status="applied",
+        application_date=timezone.now().date(),
+        notes="Son 30 gün testi.",
+    )
+
+     self.client.login(
+        username="reportuser",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:report_dashboard")
+    )
+
+     self.assertEqual(
+        response.context["recent_applications"],
+        1,
+    )
+     
+     
+    def test_old_applications_are_not_counted_as_recent(self):
+     company = Company.objects.create(
+        name="Eski Başvuru Test Şirketi",
+        website="https://oldapplicationtest.com",
+        location="İstanbul",
+    )
+
+     old_application = Application.objects.create(
+        user=self.user,
+        company=company,
+        position="Eski Django Developer",
+        status="applied",
+        notes="30 günden eski başvuru.",
+    )
+
+     Application.objects.filter(
+        pk=old_application.pk,
+    ).update(
+        application_date=timezone.now().date() - timedelta(days=31),
+    )
+
+     self.client.login(
+        username="reportuser",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:report_dashboard")
+    )
+
+     self.assertEqual(
+        response.context["recent_applications"],
+        0,
+    )
+     
+    def test_top_company_is_calculated_correctly(self):
+     company_one = Company.objects.create(
+        name="Birinci Şirket",
+        website="https://birincisirket.com",
+        location="İstanbul",
+    )
+
+     company_two = Company.objects.create(
+        name="İkinci Şirket",
+        website="https://ikincisirket.com",
+        location="Ankara",
+    )
+
+     Application.objects.create(
+        user=self.user,
+        company=company_one,
+        position="Backend Developer",
+        status="applied",
+        notes="Test başvurusu 1",
+    )
+
+     Application.objects.create(
+        user=self.user,
+        company=company_one,
+        position="Django Developer",
+        status="applied",
+        notes="Test başvurusu 2",
+    )
+
+     Application.objects.create(
+        user=self.user,
+        company=company_two,
+        position="Python Developer",
+        status="applied",
+        notes="Test başvurusu 3",
+    )
+
+     self.client.login(
+        username="reportuser",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:report_dashboard")
+    )
+
+     self.assertEqual(
+        response.context["top_company"]["company__name"],
+        "Birinci Şirket",
+    )
+
+     self.assertEqual(
+        response.context["top_company"]["total"],
+        2,
+    )
+     
+          
+    def test_top_company_respects_user_isolation(self):
+     other_user = User.objects.create_user(
+        username="otheruser",
+        password="Testpass123",
+    )
+
+     my_company = Company.objects.create(
+        name="Benim Şirketim",
+        website="https://mycompany.com",
+        location="İstanbul",
+    )
+
+     other_company = Company.objects.create(
+        name="Başka Kullanıcının Şirketi",
+        website="https://othercompany.com",
+        location="Ankara",
+    )
+
+     Application.objects.create(
+        user=self.user,
+        company=my_company,
+        position="Django Developer",
+        status="applied",
+        notes="Benim başvurum.",
+    )
+
+     for _ in range(5):
+        Application.objects.create(
+            user=other_user,
+            company=other_company,
+            position="Backend Developer",
+            status="applied",
+            notes="Başka kullanıcının başvurusu.",
+        )
+
+     self.client.login(
+        username="reportuser",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:report_dashboard")
+    )
+
+     self.assertEqual(
+        response.context["top_company"]["company__name"],
+        "Benim Şirketim",
+    )
+
+     self.assertEqual(
+        response.context["top_company"]["total"],
+        1,
+    )
+     
+     
+    def test_advanced_report_metrics_respect_user_isolation(self):
+     company = Company.objects.create(
+        name="Gelişmiş Rapor İzolasyon Şirketi",
+        website="https://advancedreporttest.com",
+        location="İstanbul",
+    )
+
+     Application.objects.create(
+        user=self.user,
+        company=company,
+        position="Django Developer",
+        status="accepted",
+        notes="Kendi başvurum.",
+    )
+
+     for _ in range(4):
+        Application.objects.create(
+            user=self.other_user,
+            company=company,
+            position="Python Developer",
+            status="rejected",
+            notes="Başka kullanıcının başvurusu.",
+        )
+
+     self.client.login(
+        username="reportuser",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:report_dashboard")
+    )
+
+     self.assertEqual(
+        response.context["total_applications"],
+        1,
+    )
+
+     self.assertEqual(
+        response.context["acceptance_rate"],
+        100.0,
+    )
+
+     self.assertEqual(
+        response.context["rejection_rate"],
+        0.0,
+    )
+
+     self.assertEqual(
+        response.context["recent_applications"],
+        1,
+    )

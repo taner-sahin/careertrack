@@ -6,162 +6,175 @@ Raporlar | CareerTrack
 
 {% block content %}
 
-<div class="container-fluid py-4">
+<div class="mb-4">
+    <h1 class="fw-bold mb-1">Raporlar</h1>
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">Raporlar</h1>
+    <p class="text-muted mb-0">
+        Kariyer sürecine ait başvuru, görüşme ve not istatistiklerini incele.
+    </p>
+</div>
 
-        <p class="text-muted mb-0">
-            Kariyer sürecine ait başvuru, görüşme ve not istatistiklerini incele.
-        </p>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-6 col-xl">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <p class="text-muted mb-2">
+                    Toplam Başvuru
+                </p>
+
+                <h2 class="fw-bold mb-0">
+                    {{ total_applications }}
+                </h2>
+            </div>
+        </div>
     </div>
 
-    <div class="row g-4 mb-4">
 
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-body p-4">
-                    <p class="text-muted mb-2">
-                        Toplam Başvuru
-                    </p>
+    <div class="col-md-6 col-xl">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <p class="text-muted mb-2">
+                    Kabul Edilen
+                </p>
 
-                    <h2 class="fw-bold mb-0">
-                        {{ total_applications }}
-                    </h2>
-                </div>
+                <h2 class="fw-bold text-success mb-0">
+                    {{ accepted_applications }}
+                </h2>
             </div>
         </div>
-
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-body p-4">
-                    <p class="text-muted mb-2">
-                        Kabul Edilen
-                    </p>
-
-                    <h2 class="fw-bold text-success mb-0">
-                        {{ accepted_applications }}
-                    </h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-body p-4">
-                    <p class="text-muted mb-2">
-                        Reddedilen
-                    </p>
-
-                    <h2 class="fw-bold text-danger mb-0">
-                        {{ rejected_applications }}
-                    </h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-body p-4">
-                    <p class="text-muted mb-2">
-                        Mülakat Aşamasında
-                    </p>
-
-                    <h2 class="fw-bold text-primary mb-0">
-                        {{ interview_applications }}
-                    </h2>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <div class="row g-4">
 
-        <div class="col-lg-6">
+    <div class="col-md-6 col-xl">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <p class="text-muted mb-2">
+                    Reddedilen
+                </p>
 
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-body p-4">
-
-                    <h4 class="fw-bold mb-1">
-                        Görüşme İstatistikleri
-                    </h4>
-
-                    <p class="text-muted mb-4">
-                        Planlanan ve tamamlanan görüşmelerin özeti
-                    </p>
-
-                    <div class="d-flex justify-content-between py-3 border-bottom">
-                        <span>Toplam Görüşme</span>
-
-                        <strong>
-                            {{ total_interviews }}
-                        </strong>
-                    </div>
-
-                    <div class="d-flex justify-content-between py-3 border-bottom">
-                        <span>Planlanan Görüşme</span>
-
-                        <strong class="text-warning">
-                            {{ scheduled_interviews }}
-                        </strong>
-                    </div>
-
-                    <div class="d-flex justify-content-between py-3">
-                        <span>Tamamlanan Görüşme</span>
-
-                        <strong class="text-success">
-                            {{ completed_interviews }}
-                        </strong>
-                    </div>
-
-                </div>
+                <h2 class="fw-bold text-danger mb-0">
+                    {{ rejected_applications }}
+                </h2>
             </div>
-
         </div>
+    </div>
 
-        <div class="col-lg-6">
 
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-body p-4">
+    <div class="col-md-6 col-xl">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <p class="text-muted mb-2">
+                    Mülakat Aşamasında
+                </p>
 
-                    <h4 class="fw-bold mb-1">
-                        Not İstatistikleri
-                    </h4>
-
-                    <p class="text-muted mb-4">
-                        Kariyer notlarının öncelik ve sabitlenme özeti
-                    </p>
-
-                    <div class="d-flex justify-content-between py-3 border-bottom">
-                        <span>Toplam Not</span>
-
-                        <strong>
-                            {{ total_notes }}
-                        </strong>
-                    </div>
-
-                    <div class="d-flex justify-content-between py-3 border-bottom">
-                        <span>Yüksek Öncelikli Not</span>
-
-                        <strong class="text-danger">
-                            {{ high_priority_notes }}
-                        </strong>
-                    </div>
-
-                    <div class="d-flex justify-content-between py-3">
-                        <span>Sabitlenmiş Not</span>
-
-                        <strong class="text-primary">
-                            {{ pinned_notes }}
-                        </strong>
-                    </div>
-
-                </div>
+                <h2 class="fw-bold text-primary mb-0">
+                    {{ interview_applications }}
+                </h2>
             </div>
-
         </div>
+    </div>
 
+
+    <div class="col-md-6 col-xl">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <p class="text-muted mb-2">
+                    Başvuru Kabul Oranı
+                </p>
+
+                <h2 class="fw-bold text-success mb-0">
+                    {{ acceptance_rate }}%
+                </h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row g-4">
+
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+
+                <h4 class="fw-bold mb-1">
+                    Görüşme İstatistikleri
+                </h4>
+
+                <p class="text-muted mb-4">
+                    Planlanan ve tamamlanan görüşmelerin özeti
+                </p>
+
+                <div class="d-flex justify-content-between py-3 border-bottom">
+                    <span>Toplam Görüşme</span>
+
+                    <strong>
+                        {{ total_interviews }}
+                    </strong>
+                </div>
+
+                <div class="d-flex justify-content-between py-3 border-bottom">
+                    <span>Planlanan Görüşme</span>
+
+                    <strong class="text-warning">
+                        {{ scheduled_interviews }}
+                    </strong>
+                </div>
+
+                <div class="d-flex justify-content-between py-3">
+                    <span>Tamamlanan Görüşme</span>
+
+                    <strong class="text-success">
+                        {{ completed_interviews }}
+                    </strong>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+
+                <h4 class="fw-bold mb-1">
+                    Not İstatistikleri
+                </h4>
+
+                <p class="text-muted mb-4">
+                    Kariyer notlarının öncelik ve sabitlenme özeti
+                </p>
+
+                <div class="d-flex justify-content-between py-3 border-bottom">
+                    <span>Toplam Not</span>
+
+                    <strong>
+                        {{ total_notes }}
+                    </strong>
+                </div>
+
+                <div class="d-flex justify-content-between py-3 border-bottom">
+                    <span>Yüksek Öncelikli Not</span>
+
+                    <strong class="text-danger">
+                        {{ high_priority_notes }}
+                    </strong>
+                </div>
+
+                <div class="d-flex justify-content-between py-3">
+                    <span>Sabitlenmiş Not</span>
+
+                    <strong class="text-primary">
+                        {{ pinned_notes }}
+                    </strong>
+                </div>
+
+            </div>
+        </div>
     </div>
 
 </div>
