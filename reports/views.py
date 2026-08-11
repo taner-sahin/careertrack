@@ -1,6 +1,15 @@
 import csv
 from datetime import timedelta
 
+from io import BytesIO
+
+from reportlab.pdfgen import canvas
+
+from django.conf import settings
+
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.http import HttpResponse
@@ -166,5 +175,63 @@ def export_applications_csv(request):
             application.get_status_display(),
             application.application_date,
         ])
+
+    return response
+
+
+@login_required
+def export_applications_pdf(request):
+    applications = Application.objects.filter(
+        user=request.user,
+    )
+    
+    buffer = BytesIO()
+    
+    
+    font_path = (
+    settings.BASE_DIR
+    / "static"
+    / "fonts"
+    / "DejaVuSans.ttf"
+   )
+
+    pdfmetrics.registerFont(
+    TTFont(
+        "DejaVuSans",
+        str(font_path),
+    )
+    )
+    pdf = canvas.Canvas(buffer)
+    
+    pdf.drawString(
+    50,
+    800,
+    "CareerTrack - Başvuru Raporu",
+    )
+    
+    y = 760
+    
+    for application in applications:
+     pdf.drawString(
+        50,
+        y,
+        f"{application.company.name} - {application.position} - {application.get_status_display()} - {application.application_date}",
+    )
+
+     y -= 25
+    
+    pdf.save()
+
+    pdf_data = buffer.getvalue()
+    buffer.close()
+
+    response = HttpResponse(
+        pdf_data,
+        content_type="application/pdf",
+    )
+
+    response["Content-Disposition"] = (
+        'attachment; filename="applications.pdf"'
+    )
 
     return response

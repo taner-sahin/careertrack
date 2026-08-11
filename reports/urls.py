@@ -19,4 +19,10 @@ urlpatterns = [
     name="export_applications_csv",
     ), 
     
+    path(
+    "export/applications/pdf/",
+    views.export_applications_pdf,
+    name="export_applications_pdf",
+    ),
+    
 ]

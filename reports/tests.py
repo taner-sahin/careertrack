@@ -5,7 +5,7 @@ from applications.models import Application
 from companies.models import Company
 from notes.models import Note
 from datetime import timedelta
-
+from unittest.mock import patch
 from django.utils import timezone
 from interviews.models import Interview
 
@@ -919,4 +919,122 @@ class ApplicationCSVExportTest(TestCase):
      self.assertIn(
         "Company;Position;Status;Application Date",
         content,
+    )
+     
+     
+class ApplicationPDFExportTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="Testpass123",
+        )
+
+    def test_pdf_export_requires_login(self):
+        response = self.client.get(
+            reverse("reports:export_applications_pdf")
+        )
+
+        self.assertEqual(
+            response.status_code,
+            302,
+        )
+        
+        
+    def test_pdf_export_returns_pdf_response(self):
+     login_successful = self.client.login(
+        username="testuser",
+        password="Testpass123",
+    )
+
+     self.assertTrue(login_successful)
+
+     response = self.client.get(
+        reverse("reports:export_applications_pdf")
+    )
+
+     self.assertEqual(
+        response.status_code,
+        200,
+    )
+
+     self.assertEqual(
+        response["Content-Type"],
+        "application/pdf",
+    )
+     
+     
+    def test_pdf_export_user_isolation(self):
+     other_user = User.objects.create_user(
+        username="otheruser",
+        password="Testpass123",
+    )
+
+     company = Company.objects.create(
+        name="Other User Company",
+        website="https://example.com",
+        location="Istanbul",
+    )
+
+     Application.objects.create(
+        user=other_user,
+        company=company,
+        position="Other User Position",
+        status="applied",
+    )
+
+     self.client.login(
+        username="testuser",
+        password="Testpass123",
+    )
+
+     with patch("reports.views.canvas.Canvas") as mock_canvas:
+        mock_pdf = mock_canvas.return_value
+
+        response = self.client.get(
+            reverse("reports:export_applications_pdf")
+        )
+
+        self.assertEqual(
+            response.status_code,
+            200,
+        )
+
+        drawn_texts = [
+            call.args[2]
+            for call in mock_pdf.drawString.call_args_list
+        ]
+
+        self.assertFalse(
+            any(
+                "Other User Position" in text
+                for text in drawn_texts
+            )
+        )
+        
+    def test_pdf_export_contains_own_application(self):
+     self.client.login(
+        username="testuser",
+        password="Testpass123",
+    )
+
+     company = Company.objects.create(
+        name="PDF Test Şirketi",
+    )
+
+     Application.objects.create(
+        user=self.user,
+        company=company,
+        position="Django Developer",
+        status="applied",
+        application_date="2026-08-11",
+    )
+
+     response = self.client.get(
+        reverse("reports:export_applications_pdf")
+    )
+ 
+ 
+     self.assertTrue(
+      response.content.startswith(b"%PDF")
     )

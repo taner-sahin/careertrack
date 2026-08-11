@@ -16,15 +16,23 @@ Raporlar | CareerTrack
         </p>
     </div>
 
-    <a
-        href="{% url 'reports:export_applications_csv' %}"
-        class="btn btn-success"
-    >
-        CSV İndir
-    </a>
+    <div class="d-flex gap-2">
+        <a
+            href="{% url 'reports:export_applications_csv' %}"
+            class="btn btn-success"
+        >
+            CSV İndir
+        </a>
+
+        <a
+            href="{% url 'reports:export_applications_pdf' %}"
+            class="btn btn-danger"
+        >
+            PDF İndir
+        </a>
+    </div>
 
 </div>
-
 
 <div class="row g-4 mb-4">
 
