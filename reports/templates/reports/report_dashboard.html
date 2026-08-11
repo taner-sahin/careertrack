@@ -6,12 +6,23 @@ Raporlar | CareerTrack
 
 {% block content %}
 
-<div class="mb-4">
-    <h1 class="fw-bold mb-1">Raporlar</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    <p class="text-muted mb-0">
-        Kariyer sürecine ait başvuru, görüşme ve not istatistiklerini incele.
-    </p>
+    <div>
+        <h1 class="fw-bold mb-1">Raporlar</h1>
+
+        <p class="text-muted mb-0">
+            Kariyer sürecine ait başvuru, görüşme ve not istatistiklerini incele.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'reports:export_applications_csv' %}"
+        class="btn btn-success"
+    >
+        CSV İndir
+    </a>
+
 </div>
 
 

@@ -24,29 +24,21 @@
 
 <div class="container d-flex align-items-center justify-content-center"
      style="min-height:100vh;">
-
     <div class="card shadow-sm border-0"
          style="max-width:500px; width:100%;">
-
         <div class="card-body p-5">
-
             <div class="text-center mb-4">
-
                 <div class="bg-primary text-white rounded-3 d-inline-flex align-items-center justify-content-center mb-3"
                      style="width:55px;height:55px;">
-
                     <i class="bi bi-person-plus-fill fs-3"></i>
-
                 </div>
 
                 <h2 class="fw-bold">
                     CareerTrack
                 </h2>
-
                 <p class="text-muted">
                     Yeni hesap oluştur
                 </p>
-
             </div>
 
             <form method="POST">
@@ -56,17 +48,12 @@
                 {{ form.as_p }}
 
                 <div class="d-grid mt-4">
-
                     <button
                         type="submit"
                         class="btn btn-primary">
-
                         <i class="bi bi-person-check-fill"></i>
-
                         Kayıt Ol
-
                     </button>
-
                 </div>
 
             </form>
@@ -74,28 +61,18 @@
             <hr>
 
             <div class="text-center">
-
                 <span class="text-muted">
-
                     Zaten hesabın var mı?
-
                 </span>
-
                 <a href="{% url 'accounts:login' %}">
-
                     Giriş Yap
-
                 </a>
-
             </div>
-
         </div>
 
     </div>
 
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

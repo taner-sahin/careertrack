@@ -737,3 +737,186 @@ class ReportDashboardTest(TestCase):
         response.context["recent_applications"],
         1,
     )
+     
+
+class ApplicationCSVExportTest(TestCase):
+
+    def test_csv_export_requires_login(self):
+        response = self.client.get(
+            reverse("reports:export_applications_csv")
+        )
+
+        self.assertEqual(
+            response.status_code,
+            302,
+        )
+        
+    def test_logged_in_user_can_export_csv(self):
+     user = User.objects.create_user(
+        username="csvuser",
+        password="Testpass123",
+    )
+
+     self.client.login(
+        username="csvuser",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:export_applications_csv")
+    )
+
+     self.assertEqual(
+        response.status_code,
+        200,
+    )
+
+     self.assertEqual(
+        response["Content-Type"],
+        "text/csv; charset=utf-8",
+    )
+     
+     
+    def test_csv_export_has_correct_filename(self):
+     user = User.objects.create_user(
+        username="csvfilenameuser",
+        password="Testpass123",
+    )
+
+     self.client.login(
+        username="csvfilenameuser",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:export_applications_csv")
+    )
+
+     self.assertEqual(
+        response["Content-Disposition"],
+        'attachment; filename="applications.csv"',
+    )
+     
+     
+    def test_csv_export_contains_only_logged_in_user_data(self):
+     user1 = User.objects.create_user(
+        username="csvuser1",
+        password="Testpass123",
+    )
+
+     user2 = User.objects.create_user(
+        username="csvuser2",
+        password="Testpass123",
+    )
+
+     company = Company.objects.create(
+        name="CSV Test Company",
+        website="https://csvtest.com",
+        location="İstanbul",
+    )
+
+     Application.objects.create(
+        user=user1,
+        company=company,
+        position="Django Backend Developer",
+        status="applied",
+        notes="User 1 application",
+    )
+
+     Application.objects.create(
+        user=user2,
+        company=company,
+        position="Python Developer",
+        status="applied",
+        notes="User 2 application",
+    )
+
+     self.client.login(
+        username="csvuser1",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:export_applications_csv")
+    )
+
+     content = response.content.decode("utf-8-sig")
+
+     self.assertIn(
+        "Django Backend Developer",
+        content,
+    )
+
+     self.assertNotIn(
+        "Python Developer",
+        content,
+    )
+     
+     
+    def test_csv_export_contains_correct_headers_and_data(self):
+     user = User.objects.create_user(
+        username="csvcontentuser",
+        password="Testpass123",
+    )
+
+     company = Company.objects.create(
+        name="CSV İçerik Şirketi",
+        website="https://csvcontent.com",
+        location="İstanbul",
+    )
+
+     Application.objects.create(
+        user=user,
+        company=company,
+        position="Django Developer",
+        status="accepted",
+        notes="CSV içerik testi",
+    )
+
+     self.client.login(
+        username="csvcontentuser",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:export_applications_csv")
+    )
+
+     content = response.content.decode("utf-8-sig")
+
+     self.assertIn(
+        "Company;Position;Status;Application Date",
+        content,
+    )
+
+     self.assertIn(
+        "CSV İçerik Şirketi;Django Developer;Kabul Edildi",
+        content,
+    )
+     
+    def test_csv_export_works_with_no_applications(self):
+     user = User.objects.create_user(
+        username="csvemptyuser",
+        password="Testpass123",
+    )
+
+     self.client.login(
+        username="csvemptyuser",
+        password="Testpass123",
+    )
+
+     response = self.client.get(
+        reverse("reports:export_applications_csv")
+    )
+
+     content = response.content.decode("utf-8-sig")
+
+     self.assertEqual(
+        response.status_code,
+        200,
+    )
+
+     self.assertIn(
+        "Company;Position;Status;Application Date",
+        content,
+    )

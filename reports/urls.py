@@ -12,4 +12,11 @@ urlpatterns = [
         views.report_dashboard,
         name="report_dashboard",
     ),
+    
+    path(
+    "export/applications/csv/",
+    views.export_applications_csv,
+    name="export_applications_csv",
+    ), 
+    
 ]
