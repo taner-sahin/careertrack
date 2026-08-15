@@ -326,7 +326,7 @@ The demo includes:
 * Reports and statistics
 * CSV and PDF export
 
-**Demo video:** [Watch the CareerTrack Demo](https://github.com/taner-sahin/careertrack/releases/download/v1.0.0/careertrack-demo.mp4)
+**Demo video:** [Download the CareerTrack Demo](https://github.com/taner-sahin/careertrack/releases/download/v1.0.0/careertrack-demo.mp4)
 
 The demo video is distributed through the CareerTrack `v1.0.0` GitHub Release.
 
