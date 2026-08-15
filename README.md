@@ -17,6 +17,7 @@ The application includes secure user authentication, user data isolation, global
 * Advanced reports and statistics
 * CSV and PDF export
 * 110 automated tests passing
+* Project screenshots and demo video
 * Production deployment preparation
 
 ## Features
@@ -218,7 +219,7 @@ Follow the steps below to run CareerTrack locally.
 
 ```bash
 git clone https://github.com/taner-sahin/careertrack.git
-cd CareerTrack
+cd careertrack
 ```
 
 ### 2. Create a Virtual Environment
@@ -313,9 +314,9 @@ Monitor application, interview, and note statistics with CSV and PDF export supp
 
 ## Demo Video
 
-A short demo video will be added to demonstrate the main CareerTrack workflow and key features.
+A short demo video demonstrates the main CareerTrack workflow and key features.
 
-The demo will include:
+The demo includes:
 
 * Dashboard overview
 * Job application management
@@ -325,7 +326,9 @@ The demo will include:
 * Reports and statistics
 * CSV and PDF export
 
-**Demo video:** Coming soon
+**Demo video:** [Watch the CareerTrack Demo](https://github.com/taner-sahin/careertrack/releases/download/v1.0.0/careertrack-demo.mp4)
+
+The demo video is distributed through the CareerTrack `v1.0.0` GitHub Release.
 
 ## Deployment
 
@@ -358,7 +361,7 @@ Possible future improvements include:
 
 ## Project Status
 
-CareerTrack's core development and automated testing stages are complete.
+CareerTrack's core development, automated testing, documentation, screenshots, and demo preparation stages are complete.
 
 Current status:
 
@@ -371,7 +374,11 @@ Current status:
 * CSV Export: Complete
 * PDF Export: Complete
 * Automated Tests: 110 tests passing
+* Professional README: Complete
+* Project Screenshots: Complete
+* Demo Video: Complete
+* GitHub Release v1.0.0: Complete
 * Production Deployment: In Progress
-* Live Demo: Coming Soon
+* Live Application: Coming Soon
 
 The next stage is production deployment using PostgreSQL, Ubuntu VPS, Gunicorn, Nginx, Domain/DNS, and SSL/HTTPS.
