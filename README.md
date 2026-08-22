@@ -1,14 +1,23 @@
 # CareerTrack
 
-CareerTrack is a Django-based career management application designed to help users organize and track their job search process in one place.
+🚀 **Live Application:** https://tanersahindev.com
+
+🎬 **Demo Video:** https://github.com/taner-sahin/careertrack/releases/download/v1.0.0/careertrack-demo.mp4
+
+CareerTrack is a production-deployed Django career management application designed to help users organize and track their job search process in one place.
 
 Users can manage companies, job applications, interviews, notes, and reminders while monitoring their progress through advanced reports and statistics.
 
-The application includes secure user authentication, user data isolation, global search, CSV/PDF export, and a comprehensive automated test suite.
+The application includes secure authentication, strict user data isolation, global search, CSV/PDF export, automated testing, PostgreSQL, and a production deployment stack built with Gunicorn and Nginx.
 
 ## Key Highlights
 
 * Django-based backend application
+* Production deployment on Ubuntu VPS
+* PostgreSQL production database
+* Gunicorn application server
+* Nginx reverse proxy
+* HTTPS/SSL enabled
 * Secure authentication and user data isolation
 * Company and job application management
 * Interview tracking
@@ -16,9 +25,8 @@ The application includes secure user authentication, user data isolation, global
 * Global search
 * Advanced reports and statistics
 * CSV and PDF export
-* 110 automated tests passing
+* 114 automated tests passing
 * Project screenshots and demo video
-* Production deployment preparation
 
 ## Features
 
@@ -32,6 +40,8 @@ The application includes secure user authentication, user data isolation, global
 
 * Create, view, update, and delete companies
 * Slug-based detail pages
+* Companies are owned by individual users
+* User isolation for company records
 * Company data linked with job applications
 
 ### Job Application Management
@@ -85,21 +95,21 @@ The application includes secure user authentication, user data isolation, global
 * Export applications as CSV
 * Export applications as PDF
 * UTF-8 BOM support for spreadsheet compatibility
-* Turkish character support in PDF using DejaVuSans
+* Turkish character support in PDF
 * Login protection and user isolation for export operations
 
 ## Tech Stack
 
 ### Backend
 
-* Python 3.8.2
-* Django 4.2.30
+* Python
+* Django 4.2
 * Django ORM
 
 ### Database
 
-* SQLite (development)
-* PostgreSQL (planned for production)
+* SQLite for local development
+* PostgreSQL for production
 
 ### Frontend
 
@@ -111,12 +121,12 @@ The application includes secure user authentication, user data isolation, global
 
 * Django TestCase
 * Django Test Client
+* Automated regression testing
 
 ### Export
 
 * Python CSV module
 * ReportLab
-* DejaVuSans TrueType Font
 
 ### Development and Version Control
 
@@ -124,14 +134,14 @@ The application includes secure user authentication, user data isolation, global
 * GitHub
 * Visual Studio Code
 
-### Planned Production Stack
+### Production Stack
 
-* Ubuntu VPS
+* Ubuntu 24.04 LTS VPS
 * PostgreSQL
 * Gunicorn
 * Nginx
 * Domain and DNS
-* SSL/HTTPS
+* Let's Encrypt SSL/HTTPS
 
 ## Security and User Isolation
 
@@ -143,8 +153,9 @@ CareerTrack is designed to keep each user's career data private and isolated fro
 * Users cannot access or modify another user's private records.
 * Detail, update, and delete operations enforce ownership checks.
 * Search results are restricted to the authenticated user's data.
+* Dashboard statistics are calculated from the authenticated user's records.
 * CSV and PDF exports contain only the authenticated user's records.
-* Automated tests verify authentication and user isolation behavior.
+* Automated tests verify authentication, authorization, ownership, and user isolation behavior.
 
 ## Automated Testing
 
@@ -152,7 +163,7 @@ CareerTrack includes a comprehensive automated test suite built with Django's te
 
 Current test status:
 
-**110 tests passed successfully.**
+**114 tests passed successfully.**
 
 The test suite covers:
 
@@ -163,12 +174,14 @@ The test suite covers:
 * CRUD operations
 * Authentication requirements
 * User isolation and ownership protection
+* Company isolation
 * Search functionality
 * Reports and calculated statistics
 * Reminders
 * CSV export
 * PDF export
 * Export user isolation
+* Regression testing
 
 ### Run the Tests
 
@@ -179,7 +192,8 @@ python manage.py test
 Expected result:
 
 ```text
-Ran 110 tests
+Ran 114 tests
+
 OK
 ```
 
@@ -326,28 +340,47 @@ The demo includes:
 * Reports and statistics
 * CSV and PDF export
 
-**Demo video:** [Download the CareerTrack Demo](https://github.com/taner-sahin/careertrack/releases/download/v1.0.0/careertrack-demo.mp4)
+**Demo Video:** https://github.com/taner-sahin/careertrack/releases/download/v1.0.0/careertrack-demo.mp4
 
 The demo video is distributed through the CareerTrack `v1.0.0` GitHub Release.
 
-## Deployment
+## Production Deployment
 
-CareerTrack is currently being prepared for production deployment.
+CareerTrack is deployed and running in a production environment.
 
-The planned production architecture includes:
+**Live Application:** https://tanersahindev.com
 
-* Ubuntu VPS
+Production architecture:
+
+```text
+Internet
+   ↓
+Domain / DNS
+   ↓
+HTTPS / SSL
+   ↓
+Nginx
+   ↓
+Gunicorn
+   ↓
+Django
+   ↓
+PostgreSQL
+```
+
+Production technologies:
+
+* Ubuntu 24.04 LTS VPS
 * PostgreSQL
 * Gunicorn
 * Nginx
-* Domain and DNS configuration
-* SSL/HTTPS
+* Domain/DNS configuration
+* Let's Encrypt SSL certificate
+* HTTPS
 
-After deployment is completed, this section will be updated with the live application URL and production details.
+The application has been tested from external devices and networks to verify public accessibility.
 
 ## Future Improvements
-
-CareerTrack is designed to be extended as backend development skills continue to grow.
 
 Possible future improvements include:
 
@@ -361,24 +394,36 @@ Possible future improvements include:
 
 ## Project Status
 
-CareerTrack's core development, automated testing, documentation, screenshots, and demo preparation stages are complete.
+CareerTrack's core development, testing, documentation, and production deployment stages are complete.
 
 Current status:
 
 * Core backend development: Complete
 * Authentication and user isolation: Complete
 * CRUD operations: Complete
+* Company user isolation: Complete
 * Global Search: Complete
 * Reminders: Complete
 * Advanced Reports: Complete
 * CSV Export: Complete
 * PDF Export: Complete
-* Automated Tests: 110 tests passing
+* Automated Tests: **114 tests passing**
 * Professional README: Complete
 * Project Screenshots: Complete
 * Demo Video: Complete
 * GitHub Release v1.0.0: Complete
-* Production Deployment: In Progress
-* Live Application: Coming Soon
+* PostgreSQL Production Database: Complete
+* Gunicorn: Complete
+* Nginx: Complete
+* Domain/DNS: Complete
+* SSL/HTTPS: Complete
+* Production Deployment: **Complete**
+* Live Application: **Online**
 
-The next stage is production deployment using PostgreSQL, Ubuntu VPS, Gunicorn, Nginx, Domain/DNS, and SSL/HTTPS.
+---
+
+## Live Application
+
+🚀 **CareerTrack is live at:**
+
+**https://tanersahindev.com**

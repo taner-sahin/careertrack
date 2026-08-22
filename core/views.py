@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from notes.models import Note
 from django.shortcuts import render
 from django.utils import timezone
 
 from applications.models import Application
 from companies.models import Company
 from interviews.models import Interview
+from notes.models import Note
 
 
 @login_required
@@ -24,7 +24,9 @@ def home(request):
         .order_by("scheduled_at")
     )
 
-    recent_companies = Company.objects.order_by(
+    recent_companies = Company.objects.filter(
+        user=request.user,
+    ).order_by(
         "-created_at"
     )[:5]
 
@@ -37,7 +39,9 @@ def home(request):
     )
 
     context = {
-        "total_companies": Company.objects.count(),
+        "total_companies": Company.objects.filter(
+            user=request.user,
+        ).count(),
         "total_applications": Application.objects.filter(
             user=request.user
         ).count(),
@@ -56,7 +60,8 @@ def home(request):
         "home.html",
         context,
     )
-    
+
+
 @login_required
 def search_view(request):
     query = request.GET.get("q", "").strip()
@@ -68,10 +73,13 @@ def search_view(request):
 
     if query:
         companies = Company.objects.filter(
-    Q(name__icontains=query)
-    | Q(location__icontains=query)
-    | Q(website__icontains=query)
-)
+            user=request.user,
+        ).filter(
+            Q(name__icontains=query)
+            | Q(location__icontains=query)
+            | Q(website__icontains=query)
+        )
+
         applications = Application.objects.filter(
             user=request.user
         ).filter(

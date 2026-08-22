@@ -20,9 +20,17 @@ class HomeViewTests(TestCase):
         )
 
         self.company = Company.objects.create(
+            user=self.user,
             name='Test Company',
             website='https://testcompany.com',
             location='İstanbul, Türkiye',
+        )
+
+        self.other_company = Company.objects.create(
+            user=self.other_user,
+            name='Other Company',
+            website='https://othercompany.com',
+            location='Ankara, Türkiye',
         )
 
         self.application = Application.objects.create(
@@ -34,7 +42,7 @@ class HomeViewTests(TestCase):
 
         self.other_application = Application.objects.create(
             user=self.other_user,
-            company=self.company,
+            company=self.other_company,
             position='Python Developer',
             status='accepted',
         )
@@ -44,7 +52,10 @@ class HomeViewTests(TestCase):
     def test_home_requires_login(self):
         response = self.client.get(self.url)
 
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response.status_code,
+            302,
+        )
 
     def test_home_opens_for_logged_in_user(self):
         self.client.login(
@@ -54,8 +65,15 @@ class HomeViewTests(TestCase):
 
         response = self.client.get(self.url)
 
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'home.html')
+        self.assertEqual(
+            response.status_code,
+            200,
+        )
+
+        self.assertTemplateUsed(
+            response,
+            'home.html',
+        )
 
     def test_dashboard_shows_only_logged_in_users_applications(self):
         self.client.login(
@@ -70,7 +88,7 @@ class HomeViewTests(TestCase):
             1,
         )
 
-    def test_dashboard_counts_all_companies(self):
+    def test_dashboard_counts_only_logged_in_users_companies(self):
         self.client.login(
             username='testuser',
             password='testpass123',
@@ -105,7 +123,7 @@ class HomeViewTests(TestCase):
             recent_applications,
         )
 
-    def test_dashboard_recent_companies_are_in_context(self):
+    def test_dashboard_recent_companies_are_user_isolated(self):
         self.client.login(
             username='testuser',
             password='testpass123',
@@ -119,5 +137,10 @@ class HomeViewTests(TestCase):
 
         self.assertIn(
             self.company,
+            recent_companies,
+        )
+
+        self.assertNotIn(
+            self.other_company,
             recent_companies,
         )
